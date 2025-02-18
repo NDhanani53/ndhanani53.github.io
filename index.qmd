@@ -1,10 +1,21 @@
 ---
-title: "ndhanani53.github.io"
+title: "Nathan Dhanani"
+image: Headshot.png
+toc: false
+about: 
+  template: jolla
+  image-shape: round
+  image-width: 15em
+  links: 
+    - text: LinkedIn
+      href: https://www.linkedin.com/in/nathandhanani/
+    - text: GitHub
+      href: https://github.com/NDhanani53
+    - text: Email
+      href: NDhanani26@cmc.edu
 ---
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Hello! My name is Nathan Dhanani and I am an Economic/Finance student at Claremont McKenna College. I am hoping to be an Economic Consultant and am currently interning at Analysis Group. I love playing soccer, lifting weights, pickle ball and Spikeball. Feel free to browse my website to learn more
 
 ```{r}
 1 + 1
