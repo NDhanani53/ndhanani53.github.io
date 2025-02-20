@@ -15,8 +15,4 @@ about:
       href: NDhanani26@cmc.edu
 ---
 
-Hello! My name is Nathan Dhanani and I am an Economic/Finance student at Claremont McKenna College. I am hoping to be an Economic Consultant and am currently interning at Analysis Group. I love playing soccer, lifting weights, pickle ball and Spikeball. Feel free to browse my website to learn more
-
-```{r}
-1 + 1
-```
+Hello! My name is Nathan Dhanani and I am an Economic/Finance student at Claremont McKenna College. I am hoping to be an Economic Consultant and am currently interning at Analysis Group. I love playing soccer, lifting weights, pickle ball and Spikeball. Feel free to browse my website to learn more.

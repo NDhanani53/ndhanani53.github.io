@@ -1,0 +1,27 @@
+---
+title: "FastFood"
+description: |
+  Analysis of Fast food nutrition from TidyTuesday.
+  Tidy Tuesday source: https://github.com/rfordatascience/tidytuesday/blob/main/data/2018/2018-09-04/fastfood_calories.csv https://fastfoodnutrition.org/mcdonalds. 
+  Source for data: McDonald's Nutrition Facts. Fast Food Nutrition, n.d., https://fastfoodnutrition.org/mcdonalds. Accessed 19 Feb. 2025.
+author: Nathan Dhanani
+date: Febuary 19, 2025
+format: html
+
+---
+
+```{r}
+library(tidyverse)
+library(readxl)
+
+file_path <- "Fast Food.xlsx"
+Fast_Food <- read_excel(file_path)
+
+ggplot(Fast_Food, aes(x = calories)) +
+  geom_boxplot(color = "darkred")+
+  facet_wrap(~restaurant)+
+  labs(title = "Average calories per Fast food restaurant")
+
+
+
+```
