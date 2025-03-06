@@ -6,14 +6,16 @@ website:
   title: "Nathan Dhanani"
   navbar:
     left:
-      - text: "About Me"
-        href: about.html
       - text: "DataViz"
         menu: 
           - text: "NFL Salaries"
             href: NFLsalaries.html
           - text: "Fast Food Calorie Count"
             href: FastFood.html
+      - text: "StringAnalysis"
+        menu: 
+        - text: "NY Times Articles"
+          href: Stinganalysis.html
 
 format:
   html:

@@ -1,0 +1,62 @@
+---
+title: "StringAnalysis"
+description: |
+ [Raw data source](http://www.amberboydstun.com/)
+author: Nathan Dhanani
+date: March 5, 2025
+format: html
+---
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+library(tidyverse)
+library(lubridate)
+library(RTextTools)
+data(NYTimes)
+as_tibble(NYTimes)
+```
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+NYTimesv2 <- NYTimes |>
+  mutate(politics_mention = str_detect(Title,regex("election|vote|senate|president|congress|politics|congress|clinton|trump", ignore_case = TRUE))) |>
+  mutate(title_word_count = str_count(Title,"\\S+")) |>
+  mutate(location = str_extract(Title, regex("New York|California|Texas|France|Russia|China|Japan|Mexico|Bosnia|Serbia|Germany|UK|USA", ignore_case = TRUE)))|>
+  mutate(location = str_to_lower(location)) |>
+  filter(politics_mention == TRUE, !is.na(location)) |>
+  group_by(location) |>
+  summarize(article_count = n(), .groups = "drop")
+```
+
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+ggplot(NYTimesv2, aes(x = reorder(location, -article_count), y = article_count, fill = location)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Most Mentioned Locations in Political Articles",
+       x = "Location",
+       y = "Number of Articles") +
+  theme_minimal()
+```
+
+The plot displays the frequency of political articles mentioning specific locations. Each bar represents a location, with the height indicating the number of articles referencing it. Locations are ordered from most to least mentioned, providing a clear view of geographic trends in political news coverage.
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+library(lubridate)
+NYTimesv3 <- NYTimes |>
+  mutate(Date = dmy(Date),  
+         Year = year(Date),
+         politics_mention = str_detect(Title, regex("election|vote|senate|president|congress|politics|congress|clinton|trump", ignore_case = TRUE)),
+         title_word_count = str_count(Title,"\\S+"),
+         location = str_extract(Title, regex("New York|California|Texas|France|Russia|China|Japan|Mexico|Bosnia|Serbia|Germany|UK|USA", ignore_case = TRUE))) |>
+  filter(politics_mention == TRUE, !is.na(location)) |>
+  group_by(Year) |>
+  summarise(article_count = n(), .groups = "drop") |>
+  arrange(Year)
+```
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+ggplot(NYTimesv3, aes(x = Year, y = article_count)) +
+  geom_line(color = "blue", size = 1) +
+  geom_point(size = 2, color = "red") +
+  labs(title = "Political Articles Mentioning Key Locations Over Time",
+       x = "Year",
+       y = "Number of Articles") +
+  theme_minimal()
+```

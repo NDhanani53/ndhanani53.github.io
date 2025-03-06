@@ -1,24 +1,14 @@
 ---
 title: "NFL Salaries by Position"
 description: |
-  Analysis of NFL salary data from TudyTuesday 
-  Tidy Tuesday source: 
-  https://github.com/rfordatascience/tidytuesday/tree/main/data/2018/2018-04-09
-  Source for data:
-  FiveThirtyEight. NFL Running Back Chart. 2017. https://espnfivethirtyeight.files.wordpress.com/2017/05/morris-nflrb-1.png?w=575&h=488&quality=90&strip=info. Accessed 19 Feb. 2025.
-
-
+ [Tidy Tuesday source](https://github.com/rfordatascience/tidytuesday/tree/main/data/2018/2018-04-09)
+ [Raw data source](https://espnfivethirtyeight.files.wordpress.com/2017/05/morris-nflrb-1.png?w=575&h=488&quality=90&strip=info)
 author: Nathan Dhanani
 date: Febuary 19, 2025
-links:
-  - text: tidytuesday source
-  - href: https://github.com/rfordatascience/tidytuesday/blob/main/data/2018/2018-09-04/fastfood_calories.csv
-  - text: raw source
-  - href: https://fastfoodnutrition.org/mcdonalds 
 format: html
 ---
 
-```{r}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 library(tidyverse)
 library(readxl)
 

@@ -1,5 +1,19 @@
 [
   {
+    "objectID": "NFLsalaries.html",
+    "href": "NFLsalaries.html",
+    "title": "NFL Salaries by Position",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(readxl)\n\nfile_path &lt;- \"nfl_salary.xlsx\"\nnfl_salary &lt;- read_excel(file_path)\n\nggplot(nfl_salary, aes(x = Quarterback)) +\n  geom_boxplot(color = \"navy\")+\n  facet_wrap(~year)+\n  labs(title = \"Average Quarterback salaries throughout the years\")"
+  },
+  {
+    "objectID": "FastFood.html",
+    "href": "FastFood.html",
+    "title": "FastFood",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(readxl)\n\nfile_path &lt;- \"Fast Food.xlsx\"\nFast_Food &lt;- read_excel(file_path)\n\nggplot(Fast_Food, aes(x = calories)) +\n  geom_boxplot(color = \"darkred\")+\n  facet_wrap(~restaurant)+\n  labs(title = \"Average calories per restaurant\")"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Nathan Dhanani",
@@ -7,24 +21,10 @@
     "text": "Hello! My name is Nathan Dhanani and I am an Economic/Finance student at Claremont McKenna College. I am hoping to be an Economic Consultant and am currently interning at Analysis Group. I love playing soccer, lifting weights, pickle ball and Spikeball. Feel free to browse my website to learn more."
   },
   {
-    "objectID": "FastFood.html",
-    "href": "FastFood.html",
-    "title": "FastFood",
+    "objectID": "Stinganalysis.html",
+    "href": "Stinganalysis.html",
+    "title": "StringAnalysis",
     "section": "",
-    "text": "library(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(readxl)\n\nfile_path &lt;- \"Fast Food.xlsx\"\nFast_Food &lt;- read_excel(file_path)\n\nNew names:\n• `` -&gt; `...1`\n\nggplot(Fast_Food, aes(x = calories)) +\n  geom_boxplot(color = \"darkred\")+\n  facet_wrap(~restaurant)+\n  labs(title = \"Average calories per Fast food restaurant\")"
-  },
-  {
-    "objectID": "NFLsalaries.html",
-    "href": "NFLsalaries.html",
-    "title": "NFL Salaries by Position",
-    "section": "",
-    "text": "library(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(readxl)\n\nfile_path &lt;- \"nfl_salary.xlsx\"\nnfl_salary &lt;- read_excel(file_path)\n\nggplot(nfl_salary, aes(x = Quarterback)) +\n  geom_boxplot(color = \"navy\")+\n  facet_wrap(~year)+\n  labs(title = \"Average Quarterback salaries throughout the years\")\n\nWarning: Removed 55 rows containing non-finite outside the scale range\n(`stat_boxplot()`)."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
+    "text": "library(tidyverse)\nlibrary(lubridate)\nlibrary(RTextTools)\ndata(NYTimes)\nas_tibble(NYTimes)\n\n# A tibble: 3,104 × 5\n   Article_ID Date      Title                                 Subject Topic.Code\n        &lt;int&gt; &lt;fct&gt;     &lt;fct&gt;                                 &lt;fct&gt;        &lt;int&gt;\n 1      41246 1-Jan-96  Nation's Smaller Jails Struggle To C… Jails …         12\n 2      41257 2-Jan-96  FEDERAL IMPASSE SADDLING STATES WITH… Federa…         20\n 3      41268 3-Jan-96  Long, Costly Prelude Does Little To … Conten…         20\n 4      41279 4-Jan-96  Top Leader of the Bosnian Serbs Now … Bosnia…         19\n 5      41290 5-Jan-96  BATTLE OVER THE BUDGET: THE OVERVIEW… Battle…          1\n 6      41302 7-Jan-96  South African Democracy Stumbles on … politi…         19\n 7      41314 8-Jan-96  Among Economists, Little Fear on Def… econom…          1\n 8      41333 10-Jan-96 BATTLE OVER THE BUDGET: THE OVERVIEW… budget…          1\n 9      41344 11-Jan-96 High Court Is Cool To Census Change   census…         20\n10      41355 12-Jan-96 TURMOIL AT BARNEYS: THE DIFFICULTIES… barney…         15\n# ℹ 3,094 more rows\n\n\n\nNYTimesv2 &lt;- NYTimes |&gt;\n  mutate(politics_mention = str_detect(Title,regex(\"election|vote|senate|president|congress|politics|congress|clinton|trump\", ignore_case = TRUE))) |&gt;\n  mutate(title_word_count = str_count(Title,\"\\\\S+\")) |&gt;\n  mutate(location = str_extract(Title, regex(\"New York|California|Texas|France|Russia|China|Japan|Mexico|Bosnia|Serbia|Germany|UK|USA\", ignore_case = TRUE)))|&gt;\n  mutate(location = str_to_lower(location)) |&gt;\n  filter(politics_mention == TRUE, !is.na(location)) |&gt;\n  group_by(location) |&gt;\n  summarize(article_count = n(), .groups = \"drop\")\n\n\nggplot(NYTimesv2, aes(x = reorder(location, -article_count), y = article_count, fill = location)) +\n  geom_bar(stat = \"identity\") +\n  labs(title = \"Most Mentioned Locations in Political Articles\",\n       x = \"Location\",\n       y = \"Number of Articles\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\nThe plot displays the frequency of political articles mentioning specific locations. Each bar represents a location, with the height indicating the number of articles referencing it. Locations are ordered from most to least mentioned, providing a clear view of geographic trends in political news coverage.\n\nlibrary(lubridate)\nNYTimesv3 &lt;- NYTimes |&gt;\n  mutate(Date = dmy(Date),  \n         Year = year(Date),\n         politics_mention = str_detect(Title, regex(\"election|vote|senate|president|congress|politics|congress|clinton|trump\", ignore_case = TRUE)),\n         title_word_count = str_count(Title,\"\\\\S+\"),\n         location = str_extract(Title, regex(\"New York|California|Texas|France|Russia|China|Japan|Mexico|Bosnia|Serbia|Germany|UK|USA\", ignore_case = TRUE))) |&gt;\n  filter(politics_mention == TRUE, !is.na(location)) |&gt;\n  group_by(Year) |&gt;\n  summarise(article_count = n(), .groups = \"drop\") |&gt;\n  arrange(Year)\n\n\nggplot(NYTimesv3, aes(x = Year, y = article_count)) +\n  geom_line(color = \"blue\", size = 1) +\n  geom_point(size = 2, color = \"red\") +\n  labs(title = \"Political Articles Mentioning Key Locations Over Time\",\n       x = \"Year\",\n       y = \"Number of Articles\") +\n  theme_minimal()"
   }
 ]

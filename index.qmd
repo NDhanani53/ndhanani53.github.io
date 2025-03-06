@@ -3,8 +3,8 @@ title: "Nathan Dhanani"
 image: Headshot.png
 toc: false
 about: 
-  template: jolla
-  image-shape: round
+  template: trestles
+  image-shape: rectangle
   image-width: 15em
   links: 
     - text: LinkedIn
