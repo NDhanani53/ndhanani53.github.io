@@ -16,6 +16,10 @@ website:
         menu: 
         - text: "NY Times Articles"
           href: Stinganalysis.html
+      - text: "Permutation test"
+        menu:
+          - text: "Financial Institution study" 
+            href: permutation_test.html
 
 format:
   html:

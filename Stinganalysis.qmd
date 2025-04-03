@@ -6,6 +6,7 @@ author: Nathan Dhanani
 date: March 5, 2025
 format: html
 ---
+
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 library(tidyverse)
 library(lubridate)
@@ -24,7 +25,6 @@ NYTimesv2 <- NYTimes |>
   group_by(location) |>
   summarize(article_count = n(), .groups = "drop")
 ```
-
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 ggplot(NYTimesv2, aes(x = reorder(location, -article_count), y = article_count, fill = location)) +
@@ -60,3 +60,5 @@ ggplot(NYTimesv3, aes(x = Year, y = article_count)) +
        y = "Number of Articles") +
   theme_minimal()
 ```
+
+This line graph illustrates the number of political articles referencing key locations across different years. The x-axis represents the year, while the y-axis shows the total number of articles that mention political topics alongside specific locations. The blue line indicates trends over time, while red points highlight the exact number of articles per year. This visualization helps identify fluctuations in political coverage across the dataset.
