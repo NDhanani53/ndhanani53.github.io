@@ -20,6 +20,10 @@ website:
         menu:
           - text: "Financial Institution study" 
             href: permutation_test.html
+      - text: "Data Ethics"
+        menu: 
+          - text: "Machine Bias"
+            href: DataEthics.html
 
 format:
   html:
