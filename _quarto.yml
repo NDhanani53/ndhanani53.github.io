@@ -24,6 +24,10 @@ website:
         menu: 
           - text: "Machine Bias"
             href: DataEthics.html
+      - text: "SQL"
+        menu: 
+          - text: "Stanford Open Policing Project"
+            href: SQL.html
 
 format:
   html:
