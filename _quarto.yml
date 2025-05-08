@@ -28,6 +28,10 @@ website:
         menu: 
           - text: "Stanford Open Policing Project"
             href: SQL.html
+      - text: "Final Presentation"
+        menu: 
+          - text: "Permutation Test Presentation"
+            href: Final Presentation.html
 
 format:
   html:

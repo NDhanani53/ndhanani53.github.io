@@ -1,0 +1,139 @@
+---
+title: "Final Presentation"
+author: "Nathan Dhanani"
+subtitle: "5/08/25"
+format:
+  revealjs:
+    scrollable: true
+    slide-number: true
+    show-slide-number: all
+    embed-resources: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Introduction & Methodology
+
+**Research Question:** Does greater access to financial institutions correlate with higher national wealth, as measured by GDP per Capita?
+
+**Data Overview:**
+
+-   120 countries
+
+-   Variables sourced from World Bank/Wolrdometer
+
+-   Countries grouped by median GDP per Capita:
+
+    -   *High GDP group*: Above median
+
+    -   *Low GDP group*: Below median
+
+**Main Tool:**
+
+-   Permutation Test
+
+-   Simulates the null hypothesis: no relationship between GDP and account access
+
+-   1,000 iterations with random shuffling
+
+## Data Preperation
+
+```{r}
+library(tidyverse)
+library(readxl)
+
+GDP_analysis <- read_excel("GDP_analysis.xlsx", sheet = "Data", skip = 1)
+colnames(GDP_analysis) <- c(
+  "Country", 
+  "GDP_Per_Capita", 
+  "Account_15plus", 
+  "Saved_15plus", 
+  "Borrowed_Formal_15plus", 
+  "Account_Female", 
+  "Account_Male", 
+  "Owns_Credit_Card")
+
+DP_analysis <- GDP_analysis |> 
+  mutate(across(GDP_Per_Capita:Owns_Credit_Card, as.numeric))
+  
+median_gdp <- median(GDP_analysis$GDP_Per_Capita, na.rm = TRUE)
+
+GDP_analysis <- GDP_analysis |>  
+  mutate(GDP_Group = ifelse(GDP_Per_Capita >= median_gdp, "High", "Low"))
+```
+
+## Boxplot Visualization
+
+```{r, boxplot-access-account, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig.width=8, fig.height=5, out.width='800px', fig.align='center'}
+GDP_analysis |>
+  ggplot(aes( x = GDP_Group, y = Account_15plus )) +
+  geom_boxplot()
+```
+
+## Permutation Test
+
+**Null hypothesis:**
+
+There is no difference in GDP per Capita between countries with higher and lower access to financial institutions.
+
+**Alternate Hypothesis:**
+
+Countries with greater access to financial institutions have a higher GDP per Capita than those with lower access.
+
+```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+perm_data <- function(rep, data) {
+  data |>
+    select(GDP_Group, Account_15plus) |>
+    mutate(Account_15plus_perm = sample(Account_15plus, replace = FALSE)) %>%
+    group_by(GDP_Group) |>
+    summarize(
+      obs_ave = mean(Account_15plus, na.rm = TRUE),
+      obs_med = median(Account_15plus, na.rm = TRUE),
+      perm_ave = mean(Account_15plus_perm, na.rm = TRUE),
+      perm_med = median(Account_15plus_perm, na.rm = TRUE),
+      .groups = "drop"
+    ) |>
+    summarize(
+      obs_ave_diff = diff(obs_ave),
+      obs_med_diff = diff(obs_med),
+      perm_ave_diff = diff(perm_ave),
+      perm_med_diff = diff(perm_med),
+      rep = rep
+    )
+}
+
+perm_results <- map_df(1:1000, perm_data, data = GDP_analysis)
+
+head(perm_results)
+
+
+```
+
+## Permutation test results
+
+```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+ggplot(perm_results, aes(x = perm_ave_diff)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  geom_vline(aes(xintercept = mean(obs_ave_diff)), color = "red") +
+  labs(
+    title = "Permutation Test: Difference in Means of Account Ownership (15+)",
+    x = "Difference in Means (Low GDP - High GDP)",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+ggplot(perm_results, aes(x = perm_med_diff)) +
+  geom_histogram(bins = 30, fill = "lightgreen", color = "black") +
+  geom_vline(aes(xintercept = mean(obs_med_diff)), color = "blue",) +
+  labs(
+    title = "Permutation Test: Difference in Medians of Account Ownership (15+)",
+    x = "Difference in Medians (Low GDP - High GDP)",
+    y = "Count"
+  ) +
+  theme_minimal()
+```

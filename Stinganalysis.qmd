@@ -23,11 +23,13 @@ NYTimesv2 <- NYTimes |>
   mutate(location = str_to_lower(location)) |>
   filter(politics_mention == TRUE, !is.na(location)) |>
   group_by(location) |>
-  summarize(article_count = n(), .groups = "drop")
+  summarize(article_count = n(), .groups = "drop")|>
+    mutate(location = fct_reorder(location, article_count))  
+
 ```
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-ggplot(NYTimesv2, aes(x = reorder(location, -article_count), y = article_count, fill = location)) +
+ggplot(NYTimesv2, aes(x = location, y = article_count, fill = article_count)) +
   geom_bar(stat = "identity") +
   labs(title = "Most Mentioned Locations in Political Articles",
        x = "Location",
@@ -35,7 +37,7 @@ ggplot(NYTimesv2, aes(x = reorder(location, -article_count), y = article_count, 
   theme_minimal()
 ```
 
-The plot displays the frequency of political articles mentioning specific locations. Each bar represents a location, with the height indicating the number of articles referencing it. Locations are ordered from most to least mentioned, providing a clear view of geographic trends in political news coverage.
+This bar chart shows which geographic locations appear most frequently in political articles published by *The New York Times*. Each bar represents a specific location mentioned in political headlines, based on keywords like “election,” “vote,” “president,” etc. The data has been filtered to include only articles that reference both politics and one of several predefined countries or regions. The color gradient indicates the volume of mentions, making it easier to spot which places dominate the political conversation in NYT headlines.
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 library(lubridate)
@@ -61,4 +63,4 @@ ggplot(NYTimesv3, aes(x = Year, y = article_count)) +
   theme_minimal()
 ```
 
-This line graph illustrates the number of political articles referencing key locations across different years. The x-axis represents the year, while the y-axis shows the total number of articles that mention political topics alongside specific locations. The blue line indicates trends over time, while red points highlight the exact number of articles per year. This visualization helps identify fluctuations in political coverage across the dataset.
+This line chart tracks the number of political articles published each year by *The New York Times* that mention at least one major global location. By focusing only on political headlines containing specific keywords and country names, this plot visualizes how global political focus in NYT coverage has shifted or intensified over time. Spikes or dips in the line may correspond to key events such as presidential elections, international conflicts, or geopolitical crises.

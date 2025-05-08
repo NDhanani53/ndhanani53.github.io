@@ -185,6 +185,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-final-presentation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Final Presentation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-final-presentation">    
+        <li>
+    <a class="dropdown-item" href="./Final Presentation.html">
+ <span class="dropdown-text">Permutation Test Presentation</span></a>
+  </li>  
+    </ul>
+  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -233,6 +244,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>Introduction:<br>
+To understand how caloric content varies across different fast food restaurants, I analyzed a dataset containing menu item information from multiple chains. After importing the data, I focused on the calories variable and used ggplot2 to create box-plots of calorie counts for each restaurant. By using facet_wrap, I generated separate plots for each chain, allowing for side-by-side comparison of the distribution of calories per item. This visualization helps identify which restaurants tend to offer higher-calorie foods and which ones have more balanced or lower-calorie options.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
@@ -252,6 +265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>This set of boxplots displays the distribution of calorie counts for menu items at various fast food restaurants. Each panel represents a different chain, showing the spread of calories offered on their menus. The boxes illustrate the interquartile range (middle 50% of items), the horizontal line inside each box shows the median calorie count, and dots (if any) highlight outlier items with unusually high or low calories. This visual makes it easy to compare how calorie-dense different menus are across fast food brands.</p>
 
 
 

@@ -7,6 +7,9 @@ date: Febuary 19, 2025
 format: html
 ---
 
+Introduction:\
+To understand how caloric content varies across different fast food restaurants, I analyzed a dataset containing menu item information from multiple chains. After importing the data, I focused on the calories variable and used ggplot2 to create box-plots of calorie counts for each restaurant. By using facet_wrap, I generated separate plots for each chain, allowing for side-by-side comparison of the distribution of calories per item. This visualization helps identify which restaurants tend to offer higher-calorie foods and which ones have more balanced or lower-calorie options.
+
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 library(tidyverse)
 library(readxl)
@@ -22,3 +25,5 @@ ggplot(Fast_Food, aes(x = calories)) +
 
 
 ```
+
+This set of boxplots displays the distribution of calorie counts for menu items at various fast food restaurants. Each panel represents a different chain, showing the spread of calories offered on their menus. The boxes illustrate the interquartile range (middle 50% of items), the horizontal line inside each box shows the median calorie count, and dots (if any) highlight outlier items with unusually high or low calories. This visual makes it easy to compare how calorie-dense different menus are across fast food brands.
