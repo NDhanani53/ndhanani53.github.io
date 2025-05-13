@@ -1,21 +1,53 @@
 ---
 title: "StringAnalysis"
 description: |
- [Raw data source](http://www.amberboydstun.com/)
+ [Raw data source]( http://www.amber-boydstun.com/supplementary-information-for-making-the-news.html)
 author: Nathan Dhanani
 date: March 5, 2025
 format: html
 ---
 
+Introduction:
+
+In today’s media landscape, the New York Times remains one of the most influential news outlets, shaping public discourse on politics and international affairs. To better understand how political topics are covered in NYT headlines, this analysis explores a dataset of article titles, focusing on mentions of key political terms and global locations. By identifying headlines that reference terms like “election,” “president,” or “congress,” and extracting country or region names, we can begin to map out how political attention is distributed across the globe and how it has evolved throughout time. This exploration provides insight into the geographic focus of political reporting, how frequently certain regions appear in headlines, and how this coverage has changed over time. Through a combination of text filtering, and location extraction the following analysis aims to uncover patterns in political narrative emphasis and international visibility in the New York Times.
+
+Exploratory Analysis:
+
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+library(readxl)
+library(dplyr)
+
+# Show the first few rows of the full dataset with all original variables
+head(NYTimes, 10)
+```
+
+Variables:
+
+-   Article_ID - A unique numerical identifier for each article in the dataset
+
+-   Date - The publication date of the article (usually in day-month-year format)
+
+-   Title - The article headline as it appeared in The New York Times Subject A brief summary or annotation describing the main idea of the article
+
+-   Topic.Code - A numeric code representing the article’s assigned policy topic or issue domain
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+
+# Load necessary libraries
+
 library(tidyverse)
 library(lubridate)
 library(RTextTools)
+
+# Load the NYTimes dataset and convert it to a tibble for easier handling
+
 data(NYTimes)
 as_tibble(NYTimes)
 ```
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+# This chunk filters articles that mention political topics (e.g. "election", "president", "congress") and extracts geographic keywords. It then counts how many political headlines include each location.
+
 NYTimesv2 <- NYTimes |>
   mutate(politics_mention = str_detect(Title,regex("election|vote|senate|president|congress|politics|congress|clinton|trump", ignore_case = TRUE))) |>
   mutate(title_word_count = str_count(Title,"\\S+")) |>
@@ -28,7 +60,9 @@ NYTimesv2 <- NYTimes |>
 
 ```
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig-alt: "Bar chart showing the number of political headlines in the NYTimes mentioning each of several global locations. Locations are ordered by frequency, with darker fill indicating more mentions."}
+
+# This chunk creates a Bar chart which depicts the most mentioned locations in political articles
 ggplot(NYTimesv2, aes(x = location, y = article_count, fill = article_count)) +
   geom_bar(stat = "identity") +
   labs(title = "Most Mentioned Locations in Political Articles",
@@ -40,6 +74,9 @@ ggplot(NYTimesv2, aes(x = location, y = article_count, fill = article_count)) +
 This bar chart shows which geographic locations appear most frequently in political articles published by *The New York Times*. Each bar represents a specific location mentioned in political headlines, based on keywords like “election,” “vote,” “president,” etc. The data has been filtered to include only articles that reference both politics and one of several predefined countries or regions. The color gradient indicates the volume of mentions, making it easier to spot which places dominate the political conversation in NYT headlines.
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+
+#In this chunk, we extract the year from each article date and count how many political headlines occurred each year. This helps us track The New York Times political coverage volume over time.
+
 library(lubridate)
 NYTimesv3 <- NYTimes |>
   mutate(Date = dmy(Date),  
@@ -53,7 +90,10 @@ NYTimesv3 <- NYTimes |>
   arrange(Year)
 ```
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig-alt: "Line chart showing the number of political articles in the NYTimes each year that mention major global locations. The line shows increases or dips in coverage volume over time."}
+
+#In this chunk, we create a line chart that counts the amount of political article frequency by year
+
 ggplot(NYTimesv3, aes(x = Year, y = article_count)) +
   geom_line(color = "blue", size = 1) +
   geom_point(size = 2, color = "red") +
@@ -64,3 +104,15 @@ ggplot(NYTimesv3, aes(x = Year, y = article_count)) +
 ```
 
 This line chart tracks the number of political articles published each year by *The New York Times* that mention at least one major global location. By focusing only on political headlines containing specific keywords and country names, this plot visualizes how global political focus in NYT coverage has shifted or intensified over time. Spikes or dips in the line may correspond to key events such as presidential elections, international conflicts, or geopolitical crises.
+
+Citation:
+
+Boydstun, A. E. (2013). Supplementary Information for: Making the News: Politics, the Media, and Agenda Setting. Retrieved from http://www.amber-boydstun.com/supplementary-information-for-making-the-news.html
+
+Additional citation context:
+
+Who collected the data? The dataset was compiled by Dr. Amber E. Boydstun, a political scientist and professor at the University of California, Davis. She gathered this data as part of her research for the book Making the News: Politics, the Media, and Agenda Setting, which examines patterns in media attention and agenda-setting processes.
+
+Why it was collected? The primary aim of collecting this data was to analyze how policy issues gain prominence in media coverage, particularly focusing on the dynamics of news reporting by major outlets like The New York Times. The research sought to understand the factors influencing which issues are highlighted in the news and how this affects public discourse and policy-making.
+
+Original source of the information: The data originates from a systematic content analysis of The New York Times front-page articles spanning from 1996 to 2006. Each article was coded for various attributes, including policy topics, framing, and prominence, to facilitate a comprehensive study of media coverage patterns.

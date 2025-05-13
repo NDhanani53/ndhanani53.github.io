@@ -1,8 +1,8 @@
 ---
 title: "FastFood"
 description: |
- [Tidy Tuesday source]( https://github.com/rfordatascience/tidytuesday/blob/main/data/2018/2018-09-04/fastfood_calories.csv https://fastfoodnutrition.org/mcdonalds)
- [Raw data source](https://fastfoodnutrition.org/mcdonald)
+ [Tidy Tuesday source]( https://github.com/rfordatascience/tidytuesday/tree/main/data/2018/2018-09-04)
+ [Raw data source](https://fastfoodnutrition.org/mcdonalds)
 date: Febuary 19, 2025
 format: html
 ---
@@ -10,20 +10,110 @@ format: html
 Introduction:\
 To understand how caloric content varies across different fast food restaurants, I analyzed a dataset containing menu item information from multiple chains. After importing the data, I focused on the calories variable and used ggplot2 to create box-plots of calorie counts for each restaurant. By using facet_wrap, I generated separate plots for each chain, allowing for side-by-side comparison of the distribution of calories per item. This visualization helps identify which restaurants tend to offer higher-calorie foods and which ones have more balanced or lower-calorie options.
 
+Exploratory Analysis:
+
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+library(readxl)
+library(dplyr)
+
+# Load the data
+Fast_Food <- read_excel("Fast Food.xlsx")
+
+# Show the first few rows of the full dataset with all original variables
+head(Fast_Food, 10)
+```
+
+Variables:
+
+-   restaurant: Name of the fast food chain (e.g., McDonald's, Burger King).
+
+-   item: Specific menu item.
+
+-   calories: Total calories in the item.
+
+-   cal_fat: Calories from fat.
+
+-   total_fat: Total fat in grams.
+
+-   saturated_fat: Saturated fat in grams.
+
+-   trans_fat: Trans fat in grams.
+
+-   cholesterol: Cholesterol in milligrams.
+
+-   sodium: Sodium in milligrams.
+
+-   total_carb: Total carbohydrates in grams.
+
+-   fiber: Dietary fiber in grams.
+
+-   sugar: Sugars in grams.
+
+-   protein: Protein in grams.
+
+-   vit_a: Vitamin A percentage of daily value.
+
+-   vit_c: Vitamin C percentage of daily value.
+
+-   calcium: Calcium percentage of daily value.
+
+-   salad: Indicator if the item is a salad (TRUE/FALSE).
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig.alt="Boxplot showing the distribution of calorie counts for menu items at each fast food restaurant. Each facet represents one restaurant, and the plot shows median, quartiles, and outliers"}
+
+# Load necessary libraries for data manipulation and visualization
 library(tidyverse)
 library(readxl)
 
+# Read in the Excel file containing the fast food nutrition data
 file_path <- "Fast Food.xlsx"
 Fast_Food <- read_excel(file_path)
 
+# Create a boxplot to visualize the distribution of calories for each restaurant
 ggplot(Fast_Food, aes(x = calories)) +
   geom_boxplot(color = "darkred")+
   facet_wrap(~restaurant)+
-  labs(title = "Average calories per restaurant")
-
-
+  labs(title = "Calorie distribution of each restaurant's menu")
 
 ```
 
 This set of boxplots displays the distribution of calorie counts for menu items at various fast food restaurants. Each panel represents a different chain, showing the spread of calories offered on their menus. The boxes illustrate the interquartile range (middle 50% of items), the horizontal line inside each box shows the median calorie count, and dots (if any) highlight outlier items with unusually high or low calories. This visual makes it easy to compare how calorie-dense different menus are across fast food brands.
+
+Extra Credit:
+
+```{r,echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+library(tidyverse)
+library(readxl)
+library(plotly)
+
+# Read the data
+Fast_Food <- read_excel("Fast Food.xlsx")
+
+# Create corrected boxplot
+p <- ggplot(Fast_Food, aes(x = restaurant, y = calories)) +
+  geom_boxplot(color = "darkred") +
+  labs(title = "Calorie Distribution by Restaurant",
+       x = "Restaurant", y = "Calories") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Convert to interactive plot
+interactive_plot <- ggplotly(p)
+interactive_plot
+```
+
+For my extra credit, I improved my original fast food calorie graph by turning it from a regular static chart into an interactive one using Plotly. My original graph used boxplots to show how calories are spread out across different restaurants, which made it easy to spot things like medians and outliers. But the static version had some downsides—it didn’t let viewers see exact values or easily compare restaurants, especially when the data overlapped. By switching to Plotly, I made the chart interactive so users can now hover over each box to see specific calorie numbers, zoom in on certain restaurants, and explore the data in more detail. This makes the chart easier to use and more interesting to look at. It also helps people better understand the differences in calorie content between restaurants by letting them explore the data on their own.
+
+Citations
+
+TidyTuesday source: Hughes, Ellis ., & the R for Data Science Online Learning Community. (2018, September 4). *Fast Food Calories – TidyTuesday Dataset*. Retrieved from <https://github.com/rfordatascience/tidytuesday/tree/main/data/2018/2018-09-04>
+
+Original data source: Fast Food Nutrition. (2025, May 6). *McDonald's Nutrition Facts & Calories*. Retrieved from <https://fastfoodnutrition.org/mcdonalds>
+
+Additional citation context:
+
+-   Who collected the data? The data was compiled by Fast Food Nutrition, an independent website that aggregates nutritional information from various fast-food chains.
+
+-   Why it was collected? To provide consumers with accessible and comprehensive nutritional information for menu items at fast-food restaurants, aiding in informed dietary choices.
+
+-   Original source of the information: The nutritional data originates from all the restaurants official nutritional disclosures and publicly available information.

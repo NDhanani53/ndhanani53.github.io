@@ -76,11 +76,11 @@ GDP_analysis |>
 
 **Null hypothesis:**
 
-There is no difference in GDP per Capita between countries with higher and lower access to financial institutions.
+There is no difference in the degree of access to financial institutions between countries with higher and lower GDP per Capita.
 
 **Alternate Hypothesis:**
 
-Countries with greater access to financial institutions have a higher GDP per Capita than those with lower access.
+Countries with a higher GDP per Capita have greater access to financial institutions than those with a lower GDP per Capita.
 
 ```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 perm_data <- function(rep, data) {
