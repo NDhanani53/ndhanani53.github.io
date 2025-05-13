@@ -252,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><strong>Context of the problem:</strong></p>
-<p>The point of this analysis is to explore how access to financial institutions and services such as having a checking account impacts a nations GDP and to explore the relationship between the two factors. We are exploring GDP per Capita for 120 nations in USD. We are measuring how GDP per Capita is affected by the percent of the population 15+ and older who have access to a financial institution account. Among the data we also have other variables to measure access to financial institutions such as:</p>
+<p>The point of this analysis is to explore how access to financial institutions and services such as having a checking account correlates with a nation’s GDP and to explore the relationship between the two. We are exploring GDP per Capita for 120 nations in USD. We are measuring how GDP per Capita is correlates with the percent of the population 15+ and older who have access to a financial institution account. Among the data we also have other variables to measure access to financial institutions such as:</p>
 <p>Saved at a financial institution (% age 15+)</p>
 <p>Borrowed from a formal financial institution (% age 15+)</p>
 <p>Account, female (% age 15+)</p>
@@ -262,37 +262,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>High GDP group: Countries above the median</p>
 <p>Low GDP group: Countries below the median</p>
 <p><strong>Why this is interesting to analyze:</strong></p>
-<p>Understanding how economic development correlates with financial inclusion is essential for policy and development strategy. If we notice countries with greater access to financial institutions have a larger GDP per Capita than maybe we can identify financial institutions as a potential driver in generating wealth for a country. Understanding this could help addresing policy going forward in low income countries. If these countries implement policies that expand access to financial institutions it could help increase their GDP per Capita and improve a nations wealth which would also improve standard of living, overall happiness, and quality of life.</p>
+<p>Understanding if economic development relates to financial inclusion can be interesting to study to hopefully understand what makes a nation wealthy and may aid in policy and development strategy. If we notice countries with greater access to financial institutions have a larger GDP per Capita than maybe we can identify financial institutions as one of many potential drivers in generating wealth for a country. Understanding this could help address policy going forward in low-income countries. If these countries implement policies that expand access to financial institutions, it could help increase their GDP per Capita and improve a nation’s wealth, which would also improve the standard of living, overall happiness, and quality of life. Though studying this relationship does not mean there is a direct cause, it could be the start of a study in which we could hopefully identify the cause eventually. We are mostly understanding the relationship, but if there is a significant relationship, it is interesting to hypothesize that there may be some causation.</p>
+<p>Exploratory Analysis:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>GDP_analysis <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"GDP_analysis.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Data"</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(GDP_analysis) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Country"</span>, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GDP_Per_Capita"</span>, </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Account_15plus"</span>, </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Saved_15plus"</span>, </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Borrowed_Formal_15plus"</span>, </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Account_Female"</span>, </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Account_Male"</span>, </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Owns_Credit_Card"</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>DP_analysis <span class="ot">&lt;-</span> GDP_analysis <span class="sc">|&gt;</span> </span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(GDP_Per_Capita<span class="sc">:</span>Owns_Credit_Card, as.numeric))</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>median_gdp <span class="ot">&lt;-</span> <span class="fu">median</span>(GDP_analysis<span class="sc">$</span>GDP_Per_Capita, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>GDP_analysis <span class="ot">&lt;-</span> GDP_analysis <span class="sc">|&gt;</span>  </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">GDP_Group =</span> <span class="fu">ifelse</span>(GDP_Per_Capita <span class="sc">&gt;=</span> median_gdp, <span class="st">"High"</span>, <span class="st">"Low"</span>))</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>GDP_analysis <span class="sc">|&gt;</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>( <span class="at">x =</span> GDP_Group, <span class="at">y =</span> Account_15plus )) <span class="sc">+</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and clean GDP dataset, assign GDP groups based on the median GDP per capita</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>GDP_analysis <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"GDP_analysis.xlsx"</span>, <span class="at">sheet =</span> <span class="st">"Data"</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(GDP_analysis) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Country"</span>, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GDP_Per_Capita"</span>, </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Account_15plus"</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Saved_15plus"</span>, </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Borrowed_Formal_15plus"</span>, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Account_Female"</span>, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Account_Male"</span>, </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Owns_Credit_Card"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>DP_analysis <span class="ot">&lt;-</span> GDP_analysis <span class="sc">|&gt;</span> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(GDP_Per_Capita<span class="sc">:</span>Owns_Credit_Card, as.numeric))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>median_gdp <span class="ot">&lt;-</span> GDP_analysis <span class="sc">|&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">median_gdp =</span> <span class="fu">median</span>(GDP_Per_Capita, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(median_gdp)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>GDP_analysis <span class="ot">&lt;-</span> GDP_analysis <span class="sc">|&gt;</span>  </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">GDP_Group =</span> <span class="fu">ifelse</span>(GDP_Per_Capita <span class="sc">&gt;=</span> median_gdp, <span class="st">"High"</span>, <span class="st">"Low"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates a boxplot to compare account ownership (age 15+) between high and low-GDP countries.</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>GDP_analysis <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> GDP_Group, <span class="at">y =</span> Account_15plus)) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="permutation_test_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="permutation_test_files/figure-html/fig-alt-&quot;Boxplotcomparingfinancialaccountownershiprates(age15+)betweenhigh-GDPandlow-GDPcountries.Theplotshowsthathigh-GDPcountriestendtohavehighermedianaccountownership,withlessvariationcomparedtolow-GDPcountries.&quot;-1.png" class="img-fluid figure-img">{#fig-alt:“Boxplotcomparingfinancialaccountownershiprates(age15+)betweenhigh-GDPandlow-GDPcountries.Theplotshowsthathigh-GDPcountriestendtohavehighermedianaccountownership,withlessvariationcomparedtolow-GDPcountries.” width=672}</p>
 </figure>
 </div>
 </div>
@@ -300,87 +308,116 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Research question:</strong></p>
 <p>Does greater access to financial institutions correlate with higher national wealth, as measured by GDP per Capita?</p>
 <p><strong>Null hypothesis:</strong></p>
-<p>There is no difference in GDP per Capita between countries with higher and lower access to financial institutions.</p>
+<p>There is no difference in the degree of access to financial institutions between countries with higher and lower GDP per Capita.</p>
 <p><strong>Alternate Hypothesis:</strong></p>
-<p>Countries with greater access to financial institutions have a higher GDP per Capita than those with lower access.</p>
+<p>Countries with a higher GDP per Capita have greater access to financial institutions than those with a lower GDP per Capita.</p>
 <p><strong>Plan:</strong></p>
 <p>To explore the relationship between a country’s wealth and financial access, I plan to compare the percentage of adults with bank accounts across high- and low-GDP countries. I plan to categorize countries into two groups based on the median GDP per Capita. To determine whether any observed difference in financial access was statistically significant, I plan to conduct a permutation test simulating the null hypothesis of no association. By repeatedly shuffling account access values and calculating the difference between groups, I aim to build a reference distribution to compare against the observed difference.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>perm_data <span class="ot">&lt;-</span> <span class="cf">function</span>(rep, data) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(GDP_Group, Account_15plus) <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Account_15plus_perm =</span> <span class="fu">sample</span>(Account_15plus, <span class="at">replace =</span> <span class="cn">FALSE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(GDP_Group) <span class="sc">|&gt;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">obs_ave =</span> <span class="fu">mean</span>(Account_15plus, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">obs_med =</span> <span class="fu">median</span>(Account_15plus, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">perm_ave =</span> <span class="fu">mean</span>(Account_15plus_perm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">perm_med =</span> <span class="fu">median</span>(Account_15plus_perm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">obs_ave_diff =</span> <span class="fu">diff</span>(obs_ave),</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">obs_med_diff =</span> <span class="fu">diff</span>(obs_med),</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">perm_ave_diff =</span> <span class="fu">diff</span>(perm_ave),</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">perm_med_diff =</span> <span class="fu">diff</span>(perm_med),</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">rep =</span> rep</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>perm_results <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, perm_data, <span class="at">data =</span> GDP_analysis)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(perm_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to generate one permutation sample and calculate differences in means and medians</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>perm_data <span class="ot">&lt;-</span> <span class="cf">function</span>(rep, data) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  data <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(GDP_Group, Account_15plus) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Randomly permute account ownership values (simulate the null hypothesis)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Account_15plus_perm =</span> <span class="fu">sample</span>(Account_15plus, <span class="at">replace =</span> <span class="cn">FALSE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by GDP group to compute observed and permuted group summaries</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(GDP_Group) <span class="sc">|&gt;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">obs_ave =</span> <span class="fu">mean</span>(Account_15plus, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">obs_med =</span> <span class="fu">median</span>(Account_15plus, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">perm_ave =</span> <span class="fu">mean</span>(Account_15plus_perm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">perm_med =</span> <span class="fu">median</span>(Account_15plus_perm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the differences between groups (Low GDP - High GDP)</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">obs_ave_diff =</span> <span class="fu">diff</span>(obs_ave),</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">obs_med_diff =</span> <span class="fu">diff</span>(obs_med),</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">perm_ave_diff =</span> <span class="fu">diff</span>(perm_ave),</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">perm_med_diff =</span> <span class="fu">diff</span>(perm_med),</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">rep =</span> rep</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>perm_results <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, perm_data, <span class="at">data =</span> GDP_analysis)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(perm_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
   obs_ave_diff obs_med_diff perm_ave_diff perm_med_diff   rep
          &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt; &lt;int&gt;
-1       -0.459       -0.572       0.0147        -0.0220     1
-2       -0.459       -0.572      -0.0877        -0.160      2
-3       -0.459       -0.572      -0.0651        -0.0636     3
-4       -0.459       -0.572      -0.0505        -0.0521     4
-5       -0.459       -0.572      -0.00163        0.0425     5
-6       -0.459       -0.572      -0.0976        -0.152      6</code></pre>
+1       -0.459       -0.572       -0.0166       -0.117      1
+2       -0.459       -0.572        0.0123        0.0355     2
+3       -0.459       -0.572       -0.0307       -0.0636     3
+4       -0.459       -0.572        0.0785        0.256      4
+5       -0.459       -0.572       -0.0237       -0.108      5
+6       -0.459       -0.572        0.0641        0.0616     6</code></pre>
 </div>
 </div>
 <p><strong>My Analysis:</strong></p>
-<p>In my analysis I aimed to investigates whether countries with higher GDP per Capita also have greater access to financial institutions. To do this, I began by importing and cleaning the dataset, converting relevant financial indicators to numeric form. I then split countries into “High” and “Low” GDP groups based on the median GDP per Capita. The main variable of interest is the percentage of adults aged 15+ with a bank account. To test whether the observed difference in account access between high- and low-GDP countries could be due to chance, I implemented a permutation test. This involved randomly shuffling the account access values across countries 1,000 times to simulate the distribution of differences we would expect under the null hypothesis of no relationship. For each iteration, I calculated the observed and permuted differences in both means and medians between the two groups. The results allow us to compare the actual observed difference to what we’d expect under random assignment, helping determine whether the relationship between GDP and financial access is statistically meaningful.</p>
+<p>In my analysis, I aimed to investigate whether countries with higher GDP per Capita also have greater access to financial institutions. To do this, I began by importing and cleaning the dataset, converting relevant financial indicators to numeric form. I then split countries into “High” and “Low” GDP groups based on the median GDP per Capita. The main variable of interest is the percentage of adults aged 15+ with a bank account. To test whether the observed difference in account access between high- and low-GDP countries could be due to chance, I implemented a permutation test. This involved randomly shuffling the account access values across countries 1,000 times to simulate the distribution of differences we would expect under the null hypothesis of no relationship. For each iteration, I calculated the observed and permuted differences in both means and medians between the two groups. The results allow us to compare the actual observed difference to what we’d expect under random assignment, helping determine whether the relationship between GDP and financial access is statistically meaningful.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perm_results, <span class="fu">aes</span>(<span class="at">x =</span> perm_ave_diff)) <span class="sc">+</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(obs_ave_diff)), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Means of Account Ownership (15+)"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Means (Low GDP - High GDP)"</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This chunk plots the  distribution of mean differences in account ownership between GDP groups that were ran in the simulation</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perm_results, <span class="fu">aes</span>(<span class="at">x =</span> perm_ave_diff)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(obs_ave_diff)), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Means of Account Ownership (15+)"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Means (Low GDP - High GDP)"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="permutation_test_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="permutation_test_files/figure-html/fig-alt-&quot;Histogramshowingthedistributionofpermuteddifferencesinmeansoffinancialaccountownership(age15+)betweenlow-GDPandhigh-GDPcountries.Aredverticallineindicatestheobserveddifferencefromtheactualdata.&quot;-1.png" class="img-fluid figure-img">{#fig-alt:“Histogramshowingthedistributionofpermuteddifferencesinmeansoffinancialaccountownership(age15+)betweenlow-GDPandhigh-GDPcountries.Aredverticallineindicatestheobserveddifferencefromtheactualdata.” width=672}</p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perm_results, <span class="fu">aes</span>(<span class="at">x =</span> perm_med_diff)) <span class="sc">+</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"lightgreen"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(obs_med_diff)), <span class="at">color =</span> <span class="st">"blue"</span>,) <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Medians of Account Ownership (15+)"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Medians (Low GDP - High GDP)"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This chunk plots the  distribution of median differences in account ownership between GDP groups that were ran in the simulation</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perm_results, <span class="fu">aes</span>(<span class="at">x =</span> perm_med_diff)) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"lightgreen"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(obs_med_diff)), <span class="at">color =</span> <span class="st">"blue"</span>,) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Medians of Account Ownership (15+)"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Medians (Low GDP - High GDP)"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="permutation_test_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="permutation_test_files/figure-html/fig-alt-&quot;Histogramshowingthedistributionofpermuteddifferencesinmediansoffinancialaccountownership(age15+)betweenlow-GDPandhigh-GDPcountries.Ablueverticallinemarkstheobservedmediandifferencefromtherealdata.&quot;-1.png" class="img-fluid figure-img">{#fig-alt:“Histogramshowingthedistributionofpermuteddifferencesinmediansoffinancialaccountownership(age15+)betweenlow-GDPandhigh-GDPcountries.Ablueverticallinemarkstheobservedmediandifferencefromtherealdata.” width=672}</p>
 </figure>
 </div>
 </div>
 </div>
-<p>This plot shows a comparison of access to financial accounts between countries with high and low GDP per Capita. Each box represents the distribution of the percentage of adults aged 15 and older who have an account at a financial institution within each GDP group. It shows the lower 25th percent quartile represented by the bottom of the box. This middle of the box represents the 50th percent quartile. The top of the box represents the 75th percent quartile. It also shows the outliers and data not in this distribution by the lines and data points shown outside of the box. From the visualization, we see that countries with higher GDP per Capita generally have greater access to financial accounts as we see the box is a lot higher. This means that on average those in higher GDP per Capita countries have a greater percent of the population with access to financial accounts. We see both the median and overall distribution higher than in the low-GDP group. This visual difference supports the idea that national wealth may be associated with financial inclusion.</p>
+<p>Both plots present the results of a permutation test designed to evaluate whether there is a statistically significant difference in account ownership (among individuals aged 15 and older) between low-GDP and high-GDP countries. The x-axis on the first plot shows the possible differences in mean account ownership between the two GDP groups that were generated by randomly shuffling the group labels (i.e., permuting which countries are labeled “low” or “high” GDP). In the second plot, it presents the same thing but with the median. Each bar in the histogram represents the frequency of a particular difference in means/medians arising purely by chance under the null hypothesis that GDP classification does not affect financial account ownership.</p>
+<p>The purpose of this test is to create a distribution of outcomes we might expect to see if there were no real relationship between GDP level and account access, essentially simulating the behavior of the data under random assignment. The vertical line on the graph marks the observed difference in means from the actual dataset (without permutation). This line serves as a reference point: its position relative to the bulk of the histogram tells us whether the observed difference is extreme or typical compared to what might occur under random chance.</p>
+<p>The lines lie far out to the left where not even one simulation occurs, This indicates that the observed difference did not occur in the 1000 simulations, meaning it is unlikely to occur by chance. This rejects the null hypothesis and suggests that GDP level may be associated with account ownership. Though, since there may be many other factors at play, we can’t claim any sort of causation.</p>
+<p>Citation:</p>
+<p>Demirgüç-Kunt, A., Klapper, L., Singer, D., &amp; Ansar, S. (2022). The Global Findex Database 2021: Financial Inclusion, Digital Payments, and Resilience in the Age of COVID-19. The World Bank. https://www.worldbank.org/en/publication/globalfindex/Data</p>
+<p>Who collected the data? The World Bank’s Development Research Group.</p>
+<p>Why? To measure how adults worldwide access and use financial services, including accounts, payments, savings, credit, and financial resilience.</p>
+<p>Original source: The Global Findex Database 2021, based on nationally representative surveys conducted in over 140 economies.</p>
+<p>Worldometer. (2024). GDP per Capita. Retrieved from https://www.worldometers.info/gdp/gdp-per-capita/</p>
+<p>Who collected the data? Worldometer, compiling data from sources such as the World Bank’s World Development Indicators.</p>
+<p>Why? To provide up-to-date GDP per capita figures for countries worldwide, facilitating economic comparisons.</p>
+<p>Original source: World Bank’s World Development Indicators, as cited by Worldometer.</p>
+<p>I combind two different data sets that came from these cited sources and complied it all into one data set</p>
 
 
 

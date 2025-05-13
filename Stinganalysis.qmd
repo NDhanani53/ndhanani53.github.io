@@ -16,8 +16,12 @@ Exploratory Analysis:
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 library(readxl)
 library(dplyr)
+library(tidyverse)
+library(lubridate)
+library(RTextTools)
 
 # Show the first few rows of the full dataset with all original variables
+data(NYTimes)
 head(NYTimes, 10)
 ```
 
@@ -32,13 +36,6 @@ Variables:
 -   Topic.Code - A numeric code representing the article’s assigned policy topic or issue domain
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-
-# Load necessary libraries
-
-library(tidyverse)
-library(lubridate)
-library(RTextTools)
-
 # Load the NYTimes dataset and convert it to a tibble for easier handling
 
 data(NYTimes)
