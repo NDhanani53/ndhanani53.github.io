@@ -1,0 +1,305 @@
+---
+title: "SQL"
+description: |
+ [Stanford Open Policing Project Data source ](https://openpolicing.stanford.edu/)
+author: Nathan Dhanani
+date: April 16, 2025
+format: html
+---
+
+
+
+
+
+Introduction:
+
+In this project, I investigate racial disparities in police search behavior during traffic stops across six U.S. cities: Nashville, Charlotte, Saint Paul, New Orleans, and Austin,  Using data from the Stanford Open Policing Project, I analyze whether Black and White drivers experience different search rates, and how those rates have changed over time. My approach involves querying each city’s data using SQL to summarize annual stop counts, search counts, and calculated search rates by race. I then compare these trends both within and across cities to identify patterns of disparity or improvement over time.
+
+
+Exploratory analysis:
+
+
+
+
+```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+library(DBI)
+library(RMariaDB)
+
+# Establish a secure connection to the 'traffic' database using environmental credentials
+con_traffic <- DBI::dbConnect(
+  RMariaDB::MariaDB(),
+  dbname = "traffic",
+  host = Sys.getenv("TRAFFIC_HOST"),
+  user = Sys.getenv("TRAFFIC_USER"),
+  password = Sys.getenv("TRAFFIC_PWD")
+)
+
+# List all available tables in the connected database
+DBI::dbListTables(con_traffic)
+
+```
+
+```{sql, connection=con_traffic}
+# Query Nashville traffic stop data to calculate search rates for Black and White drivers by year
+
+SELECT 
+  'Nashville' AS city,
+  subject_race AS race,
+  YEAR(date) AS year,
+  COUNT(*) AS total_stops,
+  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
+  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
+FROM tn_nashville_2020_04_01
+WHERE 
+  subject_race IN ('black', 'white') AND
+  date IS NOT NULL AND
+  search_conducted IS NOT NULL
+GROUP BY subject_race, YEAR(date)
+ORDER BY subject_race, YEAR(date);
+```
+
+
+
+
+In Nashville, I examined racial disparities in police searches over time. The data show the number of total stops, searches, and the resulting search rate for Black and White drivers from each year. This allows us to track whether search rates differ by race and whether those disparities have changed over time.
+
+
+
+
+
+```{sql, connection=con_traffic}
+
+# Query Charlotte traffic stop data to calculate search rates for Black and White drivers by year
+
+SELECT 
+  'Charlotte' AS city,
+  subject_race AS race,
+  YEAR(date) AS year,
+  COUNT(*) AS total_stops,
+  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
+  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
+FROM nc_charlotte_2020_04_01
+WHERE 
+  subject_race IN ('black', 'white') AND
+  date IS NOT NULL AND
+  search_conducted IS NOT NULL
+GROUP BY subject_race, YEAR(date)
+ORDER BY subject_race, YEAR(date);
+```
+
+
+
+
+This query analyzes police search behavior in Charlotte. By comparing the yearly search rates for Black and White drivers, we can identify whether racial disparities exist and whether they have narrowed or widened in recent years. The summary table gives a year-by-year breakdown of search activity.
+
+
+
+
+
+```{sql, connection=con_traffic}
+
+# Query Saint Paul traffic stop data to calculate search rates for Black and White drivers by year
+
+SELECT 
+  'Saint Paul' AS city,
+  subject_race AS race,
+  YEAR(date) AS year,
+  COUNT(*) AS total_stops,
+  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
+  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
+FROM mn_saint_paul_2020_04_01
+WHERE 
+  subject_race IN ('black', 'white') AND
+  date IS NOT NULL AND
+  search_conducted IS NOT NULL
+GROUP BY subject_race, YEAR(date)
+ORDER BY subject_race, YEAR(date);
+```
+
+
+
+
+The Saint Paul data highlights racial disparities in search rates between Black and White drivers. Each row summarizes stop and search activity for a particular year, helping us assess whether the city's policing practices have evolved or remained consistent over time.
+
+
+
+
+
+
+```{sql, connection=con_traffic}
+
+# Query New Orleans traffic stop data to calculate search rates for Black and White drivers by year
+
+SELECT 
+  'New Orleans' AS city,
+  subject_race AS race,
+  YEAR(date) AS year,
+  COUNT(*) AS total_stops,
+  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
+  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
+FROM la_new_orleans_2020_04_01
+WHERE 
+  subject_race IN ('black', 'white') AND
+  date IS NOT NULL AND
+  search_conducted IS NOT NULL
+GROUP BY subject_race, YEAR(date)
+ORDER BY subject_race, YEAR(date);
+```
+
+
+
+
+In New Orleans, I explore annual search rates for Black and White drivers. This table helps reveal whether racial disparities in search behavior exist and if they are persistent across years. The presence of any consistent differences can point to systemic patterns in local policing.
+
+
+
+
+
+```{sql, connection=con_traffic}
+
+# Query Austin traffic stop data to calculate search rates for Black and White drivers by year
+
+SELECT 
+  'Austin' AS city,
+  subject_race AS race,
+  YEAR(date) AS year,
+  COUNT(*) AS total_stops,
+  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
+  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
+FROM tx_austin_2020_04_01
+WHERE 
+  subject_race IN ('black', 'white') AND
+  date IS NOT NULL AND
+  search_conducted IS NOT NULL
+GROUP BY subject_race, YEAR(date)
+ORDER BY subject_race, YEAR(date);
+```
+
+
+
+
+The Austin dataset provides insight into how stop and search practices differ by race over time. The query outputs a breakdown of total stops, number of searches, and calculated search rates, allowing a clear comparison of treatment between Black and White drivers on a yearly basis.
+
+
+
+
+
+
+```{sql, connection=con_traffic, output.var="df"}
+
+#This query extracts and combines stop and search counts by race and year for Black and White drivers in Nashville, Charlotte, Saint Paul, New Orleans, and Austin.
+
+SELECT 'Nashville' AS city, subject_race AS race, YEAR(date) AS year,
+       COUNT(*) AS total_stops,
+       SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches
+FROM tn_nashville_2020_04_01
+WHERE subject_race IN ('black', 'white')
+GROUP BY subject_race, YEAR(date)
+
+UNION ALL
+
+SELECT 'Charlotte' AS city, subject_race AS race, YEAR(date) AS year,
+       COUNT(*) AS total_stops,
+       SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches
+FROM nc_charlotte_2020_04_01
+WHERE subject_race IN ('black', 'white')
+GROUP BY subject_race, YEAR(date)
+
+UNION ALL
+
+SELECT 'Saint Paul' AS city, subject_race AS race, YEAR(date) AS year,
+       COUNT(*) AS total_stops,
+       SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches
+FROM mn_saint_paul_2020_04_01
+WHERE subject_race IN ('black', 'white')
+GROUP BY subject_race, YEAR(date)
+
+UNION ALL
+
+SELECT 'New Orleans' AS city, subject_race AS race, YEAR(date) AS year,
+       COUNT(*) AS total_stops,
+       SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches
+FROM la_new_orleans_2020_04_01
+WHERE subject_race IN ('black', 'white')
+GROUP BY subject_race, YEAR(date)
+
+UNION ALL
+
+SELECT 'Austin' AS city, subject_race AS race, YEAR(date) AS year,
+       COUNT(*) AS total_stops,
+       SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches
+FROM tx_austin_2020_04_01
+WHERE subject_race IN ('black', 'white')
+GROUP BY subject_race, YEAR(date);
+```
+
+```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig.alt="Line chart showing search rates over time for Black and White drivers across five U.S. cities. Each panel represents a different city, and within each panel, two lines track yearly search rates by race."}
+
+# Create a line plot showing the proportion of stops that resulted in a search by race and city across years, faceted by city
+
+library(ggplot2)
+library(dplyr)
+
+df |>
+  mutate(year = as.numeric(year)) |>
+  ggplot(aes(x = year, y = searches / total_stops, color = race)) +
+  geom_line(size = 1.2) +
+  facet_wrap(~ city) +
+  labs(title = "Search Rate Over Time by Race and City",
+       x = "Year", y = "Search Rate",
+       color = "Driver Race") +
+  theme_minimal()
+```
+
+
+
+
+
+This plot displays search rates over time for Black and White drivers in each of the six cities included in the analysis seperated into 6 graphs per city. Each line represents the percentage of stops that resulted in a search for each racial group, by year. Across all cities, Black drivers consistently experienced higher search rates than White drivers. The gap between the two groups is visible in most cities and remains relatively stable over time, suggesting a persistent racial disparity in search practices.
+
+
+
+
+
+
+
+```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig.alt="Bar chart comparing total traffic stops of Black and White drivers across five U.S. cities. Each city has two bars side-by-side showing total stops by race."}
+
+# This code creates a bar chart showing how many traffic stops occurred for Black and White drivers in each of five cities.
+
+df |>
+  group_by(city, race) |>
+  summarise(total_stops = sum(total_stops)) |>
+  ggplot(aes(x = city, y = total_stops, fill = race)) +
+  geom_col(position = "dodge") +
+  labs(title = "Total Stops by Race and City",
+       x = "City", y = "Total Stops", fill = "Race") +
+  theme_minimal()
+```
+
+
+
+
+This bar chart compares the total number of stops for Black and White drivers in each city over the full time period covered by the data. It shows this by having total stops on the y-axis and cities on the x-axis. We can see two bars for each city to show how many times black people were stopped and how many times white people were stopped. While some cities show more stops for White drivers and others for Black drivers, this variation likely reflects differences in each city’s racial demographics rather than disparities in policing alone. It could also be attributed to having some incomplete or less data in some years This plot provides important context for interpreting the search rate data by showing the baseline number of stops per group.
+
+
+
+
+Conclusion:
+Through querying traffic stop data across six U.S. cities using SQL, I analyzed how search rates compare between Black and White individuals over multiple years. By combining city-level results into a unified dataset, I was able to observe trends within and across locations, comparing both the rate and total number of searches by race. The analysis revealed that Black drivers consistently experienced higher search rates than White drivers in every city studied. While the magnitude of disparity varied by city and year, the pattern was both persistent and systemic. Interestingly, when comparing the total number of searches, the dominant racial group varied by city—likely reflecting differences in local demographic composition rather than search behavior alone.
+
+Citation:
+Pierson, Emma, Camelia Simoiu, Jan Overgoor, Sam Corbett-Davies, Daniel Jenson, Amy Shoemaker, Vignesh Ramachandran, et al. 2020. “A Large-Scale Analysis of Racial Disparities in Police Stops Across the United States.” Nature Human Behaviour, 1–10.
+
+Who collected the data? The data was collected and analyzed by a multidisciplinary research team led by Emma Pierson, with co-authors from Stanford University, including members of the Stanford Computational Policy Lab and other researchers from academia and civic technology.
+
+
+Why? The data was gathered to conduct one of the largest empirical investigations into racial disparities in police traffic stops in the United States. The study sought to measure disparities in stop rates, search decisions, and outcomes, and to test whether these disparities could be explained by differences in behavior versus systemic bias.
+
+
+Original source: The underlying stop data was obtained from publicly available datasets released by state and local law enforcement agencies across the U.S., covering over 100 million traffic stops. The Stanford Open Policing Project (https://openpolicing.stanford.edu) played a central role in assembling and standardizing this data for research use.
+
+
+
+
+
