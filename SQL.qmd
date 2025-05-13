@@ -39,8 +39,8 @@ SELECT
   subject_race AS race,
   YEAR(date) AS year,
   COUNT(*) AS total_stops,
-  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
-  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
+  SUM(search_conducted) AS searches,
+  ROUND(SUM(search_conducted) * 1.0 / COUNT(*), 3) AS search_rate
 FROM tn_nashville_2020_04_01
 WHERE 
   subject_race IN ('black', 'white') AND
@@ -60,9 +60,9 @@ SELECT
   subject_race AS race,
   YEAR(date) AS year,
   COUNT(*) AS total_stops,
-  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
-  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
-FROM nc_charlotte_2020_04_01
+  SUM(search_conducted) AS searches,
+  ROUND(SUM(search_conducted) * 1.0 / COUNT(*), 3) AS search_rate
+FROM tn_nashville_2020_04_01
 WHERE 
   subject_race IN ('black', 'white') AND
   date IS NOT NULL AND
@@ -81,9 +81,9 @@ SELECT
   subject_race AS race,
   YEAR(date) AS year,
   COUNT(*) AS total_stops,
-  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
-  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
-FROM mn_saint_paul_2020_04_01
+  SUM(search_conducted) AS searches,
+  ROUND(SUM(search_conducted) * 1.0 / COUNT(*), 3) AS search_rate
+FROM tn_nashville_2020_04_01
 WHERE 
   subject_race IN ('black', 'white') AND
   date IS NOT NULL AND
@@ -103,9 +103,9 @@ SELECT
   subject_race AS race,
   YEAR(date) AS year,
   COUNT(*) AS total_stops,
-  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
-  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
-FROM la_new_orleans_2020_04_01
+  SUM(search_conducted) AS searches,
+  ROUND(SUM(search_conducted) * 1.0 / COUNT(*), 3) AS search_rate
+FROM tn_nashville_2020_04_01
 WHERE 
   subject_race IN ('black', 'white') AND
   date IS NOT NULL AND
@@ -124,9 +124,9 @@ SELECT
   subject_race AS race,
   YEAR(date) AS year,
   COUNT(*) AS total_stops,
-  SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) AS searches,
-  ROUND(SUM(CASE WHEN search_conducted = TRUE THEN 1 ELSE 0 END) * 1.0 / COUNT(*), 3) AS search_rate
-FROM tx_austin_2020_04_01
+  SUM(search_conducted) AS searches,
+  ROUND(SUM(search_conducted) * 1.0 / COUNT(*), 3) AS search_rate
+FROM tn_nashville_2020_04_01
 WHERE 
   subject_race IN ('black', 'white') AND
   date IS NOT NULL AND
@@ -185,7 +185,7 @@ WHERE subject_race IN ('black', 'white')
 GROUP BY subject_race, YEAR(date);
 ```
 
-```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig.alt="Line chart showing search rates over time for Black and White drivers across five U.S. cities. Each panel represents a different city, and within each panel, two lines track yearly search rates by race."}
+```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
 # Create a line plot showing the proportion of stops that resulted in a search by race and city across years, faceted by city
 
@@ -207,7 +207,7 @@ This plot displays search rates over time for Black and White drivers in each of
 
 
 
-```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig.alt="Bar chart comparing total traffic stops of Black and White drivers across five U.S. cities. Each city has two bars side-by-side showing total stops by race."}
+```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
 # This code creates a bar chart showing how many traffic stops occurred for Black and White drivers in each of five cities.
 

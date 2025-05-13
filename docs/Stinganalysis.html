@@ -353,6 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">article_count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>)<span class="sc">|&gt;</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">location =</span> <span class="fu">fct_reorder</span>(location, article_count))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>#| fig-alt: “Bar chart showing the number of political headlines in the NYTimes mentioning each of several global locations. Locations are ordered by frequency, with darker fill indicating more mentions.”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This chunk creates a Bar chart which depicts the most mentioned locations in political articles</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(NYTimesv2, <span class="fu">aes</span>(<span class="at">x =</span> location, <span class="at">y =</span> article_count, <span class="at">fill =</span> article_count)) <span class="sc">+</span></span>
@@ -364,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Stinganalysis_files/figure-html/fig-alt-&quot;BarchartshowingthenumberofpoliticalheadlinesintheNYTimesmentioningeachofseveralgloballocations.Locationsareorderedbyfrequency,withdarkerfillindicatingmorementions.&quot;-1.png" class="img-fluid figure-img">{#fig-alt:“BarchartshowingthenumberofpoliticalheadlinesintheNYTimesmentioningeachofseveralgloballocations.Locationsareorderedbyfrequency,withdarkerfillindicatingmorementions.” width=672}</p>
+<p><img src="Stinganalysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -385,6 +386,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">article_count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>#| fig-alt:“Line chart showing the number of political articles in the NYTimes each year that mention major global locations. The line shows increases or dips in coverage volume over time.”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#In this chunk, we create a line chart that counts the amount of political article frequency by year</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -398,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Stinganalysis_files/figure-html/fig-alt-&quot;LinechartshowingthenumberofpoliticalarticlesintheNYTimeseachyearthatmentionmajorgloballocations.Thelineshowsincreasesordipsincoveragevolumeovertime.&quot;-1.png" class="img-fluid figure-img">{#fig-alt:“LinechartshowingthenumberofpoliticalarticlesintheNYTimeseachyearthatmentionmajorgloballocations.Thelineshowsincreasesordipsincoveragevolumeovertime.” width=672}</p>
+<p><img src="Stinganalysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

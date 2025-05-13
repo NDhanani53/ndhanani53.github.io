@@ -324,8 +324,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">AS</span> race,</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">YEAR</span>(<span class="dt">date</span>) <span class="kw">AS</span> <span class="dt">year</span>,</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> total_stops,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="kw">AS</span> searches,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(search_conducted) <span class="kw">AS</span> searches,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(search_conducted) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tn_nashville_2020_04_01</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">IN</span> (<span class="st">'black'</span>, <span class="st">'white'</span>) <span class="kw">AND</span></span>
@@ -441,9 +441,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">AS</span> race,</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">YEAR</span>(<span class="dt">date</span>) <span class="kw">AS</span> <span class="dt">year</span>,</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> total_stops,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="kw">AS</span> searches,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> nc_charlotte_2020_04_01</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(search_conducted) <span class="kw">AS</span> searches,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(search_conducted) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tn_nashville_2020_04_01</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">IN</span> (<span class="st">'black'</span>, <span class="st">'white'</span>) <span class="kw">AND</span></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">date</span> <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">AND</span></span>
@@ -467,82 +467,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2000</td>
-<td style="text-align: right;">690</td>
-<td style="text-align: right;">59</td>
-<td style="text-align: right;">0.086</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">115023</td>
+<td style="text-align: right;">7451</td>
+<td style="text-align: right;">0.065</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2001</td>
-<td style="text-align: right;">972</td>
-<td style="text-align: right;">41</td>
-<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">2011</td>
+<td style="text-align: right;">153025</td>
+<td style="text-align: right;">8586</td>
+<td style="text-align: right;">0.056</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2002</td>
-<td style="text-align: right;">40250</td>
-<td style="text-align: right;">4192</td>
-<td style="text-align: right;">0.104</td>
+<td style="text-align: right;">2012</td>
+<td style="text-align: right;">173393</td>
+<td style="text-align: right;">9184</td>
+<td style="text-align: right;">0.053</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2003</td>
-<td style="text-align: right;">33438</td>
-<td style="text-align: right;">3093</td>
-<td style="text-align: right;">0.092</td>
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">160925</td>
+<td style="text-align: right;">9293</td>
+<td style="text-align: right;">0.058</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2004</td>
-<td style="text-align: right;">34212</td>
-<td style="text-align: right;">3234</td>
-<td style="text-align: right;">0.095</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">155570</td>
+<td style="text-align: right;">9106</td>
+<td style="text-align: right;">0.059</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2005</td>
-<td style="text-align: right;">41655</td>
-<td style="text-align: right;">4577</td>
-<td style="text-align: right;">0.110</td>
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">129698</td>
+<td style="text-align: right;">7530</td>
+<td style="text-align: right;">0.058</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2006</td>
-<td style="text-align: right;">49223</td>
-<td style="text-align: right;">5834</td>
-<td style="text-align: right;">0.119</td>
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">109146</td>
+<td style="text-align: right;">6517</td>
+<td style="text-align: right;">0.060</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2007</td>
-<td style="text-align: right;">60716</td>
-<td style="text-align: right;">6936</td>
-<td style="text-align: right;">0.114</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">88745</td>
+<td style="text-align: right;">5110</td>
+<td style="text-align: right;">0.058</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2008</td>
-<td style="text-align: right;">53761</td>
-<td style="text-align: right;">5551</td>
-<td style="text-align: right;">0.103</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">75310</td>
+<td style="text-align: right;">4886</td>
+<td style="text-align: right;">0.065</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Charlotte</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2009</td>
-<td style="text-align: right;">76677</td>
-<td style="text-align: right;">6095</td>
-<td style="text-align: right;">0.079</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: right;">5016</td>
+<td style="text-align: right;">322</td>
+<td style="text-align: right;">0.064</td>
 </tr>
 </tbody>
 </table>
@@ -558,9 +558,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">AS</span> race,</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">YEAR</span>(<span class="dt">date</span>) <span class="kw">AS</span> <span class="dt">year</span>,</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> total_stops,</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="kw">AS</span> searches,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> mn_saint_paul_2020_04_01</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(search_conducted) <span class="kw">AS</span> searches,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(search_conducted) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tn_nashville_2020_04_01</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">IN</span> (<span class="st">'black'</span>, <span class="st">'white'</span>) <span class="kw">AND</span></span>
 <span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">date</span> <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">AND</span></span>
@@ -584,82 +584,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Saint Paul</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2001</td>
-<td style="text-align: right;">11892</td>
-<td style="text-align: right;">1400</td>
-<td style="text-align: right;">0.118</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Saint Paul</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2002</td>
-<td style="text-align: right;">15511</td>
-<td style="text-align: right;">1727</td>
-<td style="text-align: right;">0.111</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Saint Paul</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2003</td>
-<td style="text-align: right;">16997</td>
-<td style="text-align: right;">1978</td>
-<td style="text-align: right;">0.116</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Saint Paul</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2004</td>
-<td style="text-align: right;">15954</td>
-<td style="text-align: right;">1969</td>
-<td style="text-align: right;">0.123</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Saint Paul</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2005</td>
-<td style="text-align: right;">12541</td>
-<td style="text-align: right;">1640</td>
-<td style="text-align: right;">0.131</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Saint Paul</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2006</td>
-<td style="text-align: right;">12644</td>
-<td style="text-align: right;">2079</td>
-<td style="text-align: right;">0.164</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Saint Paul</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2007</td>
-<td style="text-align: right;">8862</td>
-<td style="text-align: right;">1612</td>
-<td style="text-align: right;">0.182</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Saint Paul</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2008</td>
-<td style="text-align: right;">11559</td>
-<td style="text-align: right;">1903</td>
-<td style="text-align: right;">0.165</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Saint Paul</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2009</td>
-<td style="text-align: right;">11349</td>
-<td style="text-align: right;">1636</td>
-<td style="text-align: right;">0.144</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Saint Paul</td>
-<td style="text-align: left;">black</td>
 <td style="text-align: right;">2010</td>
-<td style="text-align: right;">11782</td>
-<td style="text-align: right;">1170</td>
-<td style="text-align: right;">0.099</td>
+<td style="text-align: right;">115023</td>
+<td style="text-align: right;">7451</td>
+<td style="text-align: right;">0.065</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Saint Paul</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2011</td>
+<td style="text-align: right;">153025</td>
+<td style="text-align: right;">8586</td>
+<td style="text-align: right;">0.056</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Saint Paul</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2012</td>
+<td style="text-align: right;">173393</td>
+<td style="text-align: right;">9184</td>
+<td style="text-align: right;">0.053</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Saint Paul</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">160925</td>
+<td style="text-align: right;">9293</td>
+<td style="text-align: right;">0.058</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Saint Paul</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2014</td>
+<td style="text-align: right;">155570</td>
+<td style="text-align: right;">9106</td>
+<td style="text-align: right;">0.059</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Saint Paul</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2015</td>
+<td style="text-align: right;">129698</td>
+<td style="text-align: right;">7530</td>
+<td style="text-align: right;">0.058</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Saint Paul</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">109146</td>
+<td style="text-align: right;">6517</td>
+<td style="text-align: right;">0.060</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Saint Paul</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">88745</td>
+<td style="text-align: right;">5110</td>
+<td style="text-align: right;">0.058</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Saint Paul</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">75310</td>
+<td style="text-align: right;">4886</td>
+<td style="text-align: right;">0.065</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Saint Paul</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: right;">5016</td>
+<td style="text-align: right;">322</td>
+<td style="text-align: right;">0.064</td>
 </tr>
 </tbody>
 </table>
@@ -675,9 +675,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">AS</span> race,</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">YEAR</span>(<span class="dt">date</span>) <span class="kw">AS</span> <span class="dt">year</span>,</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> total_stops,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="kw">AS</span> searches,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> la_new_orleans_2020_04_01</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(search_conducted) <span class="kw">AS</span> searches,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(search_conducted) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tn_nashville_2020_04_01</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">IN</span> (<span class="st">'black'</span>, <span class="st">'white'</span>) <span class="kw">AND</span></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">date</span> <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">AND</span></span>
@@ -702,81 +702,81 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">New Orleans</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2010</td>
-<td style="text-align: right;">43384</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">115023</td>
+<td style="text-align: right;">7451</td>
+<td style="text-align: right;">0.065</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">New Orleans</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2011</td>
-<td style="text-align: right;">59462</td>
-<td style="text-align: right;">5680</td>
-<td style="text-align: right;">0.096</td>
+<td style="text-align: right;">153025</td>
+<td style="text-align: right;">8586</td>
+<td style="text-align: right;">0.056</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">New Orleans</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2012</td>
-<td style="text-align: right;">44129</td>
-<td style="text-align: right;">8218</td>
-<td style="text-align: right;">0.186</td>
+<td style="text-align: right;">173393</td>
+<td style="text-align: right;">9184</td>
+<td style="text-align: right;">0.053</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">New Orleans</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2013</td>
-<td style="text-align: right;">27376</td>
-<td style="text-align: right;">6888</td>
-<td style="text-align: right;">0.252</td>
+<td style="text-align: right;">160925</td>
+<td style="text-align: right;">9293</td>
+<td style="text-align: right;">0.058</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">New Orleans</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2014</td>
-<td style="text-align: right;">35213</td>
-<td style="text-align: right;">7231</td>
-<td style="text-align: right;">0.205</td>
+<td style="text-align: right;">155570</td>
+<td style="text-align: right;">9106</td>
+<td style="text-align: right;">0.059</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">New Orleans</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2015</td>
-<td style="text-align: right;">45587</td>
-<td style="text-align: right;">8206</td>
-<td style="text-align: right;">0.180</td>
+<td style="text-align: right;">129698</td>
+<td style="text-align: right;">7530</td>
+<td style="text-align: right;">0.058</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">New Orleans</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2016</td>
-<td style="text-align: right;">31679</td>
-<td style="text-align: right;">7197</td>
-<td style="text-align: right;">0.227</td>
+<td style="text-align: right;">109146</td>
+<td style="text-align: right;">6517</td>
+<td style="text-align: right;">0.060</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">New Orleans</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2017</td>
-<td style="text-align: right;">39834</td>
-<td style="text-align: right;">9639</td>
-<td style="text-align: right;">0.242</td>
+<td style="text-align: right;">88745</td>
+<td style="text-align: right;">5110</td>
+<td style="text-align: right;">0.058</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">New Orleans</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2018</td>
-<td style="text-align: right;">23153</td>
-<td style="text-align: right;">4878</td>
-<td style="text-align: right;">0.211</td>
+<td style="text-align: right;">75310</td>
+<td style="text-align: right;">4886</td>
+<td style="text-align: right;">0.065</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">New Orleans</td>
-<td style="text-align: left;">white</td>
-<td style="text-align: right;">2010</td>
-<td style="text-align: right;">15302</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: right;">5016</td>
+<td style="text-align: right;">322</td>
+<td style="text-align: right;">0.064</td>
 </tr>
 </tbody>
 </table>
@@ -792,9 +792,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">AS</span> race,</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">YEAR</span>(<span class="dt">date</span>) <span class="kw">AS</span> <span class="dt">year</span>,</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">AS</span> total_stops,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="kw">AS</span> searches,</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(<span class="cf">CASE</span> <span class="cf">WHEN</span> search_conducted <span class="op">=</span> <span class="kw">TRUE</span> <span class="cf">THEN</span> <span class="dv">1</span> <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tx_austin_2020_04_01</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">SUM</span>(search_conducted) <span class="kw">AS</span> searches,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ROUND</span>(<span class="fu">SUM</span>(search_conducted) <span class="op">*</span> <span class="fl">1.0</span> <span class="op">/</span> <span class="fu">COUNT</span>(<span class="op">*</span>), <span class="dv">3</span>) <span class="kw">AS</span> search_rate</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> tn_nashville_2020_04_01</span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> </span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  subject_race <span class="kw">IN</span> (<span class="st">'black'</span>, <span class="st">'white'</span>) <span class="kw">AND</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">date</span> <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">AND</span></span>
@@ -818,82 +818,82 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="odd">
 <td style="text-align: left;">Austin</td>
 <td style="text-align: left;">black</td>
-<td style="text-align: right;">2006</td>
-<td style="text-align: right;">5736</td>
-<td style="text-align: right;">497</td>
-<td style="text-align: right;">0.087</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Austin</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2007</td>
-<td style="text-align: right;">5283</td>
-<td style="text-align: right;">355</td>
-<td style="text-align: right;">0.067</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Austin</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2008</td>
-<td style="text-align: right;">6449</td>
-<td style="text-align: right;">324</td>
-<td style="text-align: right;">0.050</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Austin</td>
-<td style="text-align: left;">black</td>
-<td style="text-align: right;">2009</td>
-<td style="text-align: right;">6922</td>
-<td style="text-align: right;">323</td>
-<td style="text-align: right;">0.047</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Austin</td>
-<td style="text-align: left;">black</td>
 <td style="text-align: right;">2010</td>
-<td style="text-align: right;">8226</td>
-<td style="text-align: right;">430</td>
-<td style="text-align: right;">0.052</td>
+<td style="text-align: right;">115023</td>
+<td style="text-align: right;">7451</td>
+<td style="text-align: right;">0.065</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Austin</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2011</td>
-<td style="text-align: right;">8232</td>
-<td style="text-align: right;">671</td>
-<td style="text-align: right;">0.082</td>
+<td style="text-align: right;">153025</td>
+<td style="text-align: right;">8586</td>
+<td style="text-align: right;">0.056</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Austin</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2012</td>
-<td style="text-align: right;">7234</td>
-<td style="text-align: right;">596</td>
-<td style="text-align: right;">0.082</td>
+<td style="text-align: right;">173393</td>
+<td style="text-align: right;">9184</td>
+<td style="text-align: right;">0.053</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Austin</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2013</td>
-<td style="text-align: right;">7745</td>
-<td style="text-align: right;">634</td>
-<td style="text-align: right;">0.082</td>
+<td style="text-align: right;">160925</td>
+<td style="text-align: right;">9293</td>
+<td style="text-align: right;">0.058</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Austin</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2014</td>
-<td style="text-align: right;">7335</td>
-<td style="text-align: right;">540</td>
-<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">155570</td>
+<td style="text-align: right;">9106</td>
+<td style="text-align: right;">0.059</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Austin</td>
 <td style="text-align: left;">black</td>
 <td style="text-align: right;">2015</td>
-<td style="text-align: right;">6210</td>
-<td style="text-align: right;">475</td>
-<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">129698</td>
+<td style="text-align: right;">7530</td>
+<td style="text-align: right;">0.058</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Austin</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2016</td>
+<td style="text-align: right;">109146</td>
+<td style="text-align: right;">6517</td>
+<td style="text-align: right;">0.060</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Austin</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: right;">88745</td>
+<td style="text-align: right;">5110</td>
+<td style="text-align: right;">0.058</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Austin</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2018</td>
+<td style="text-align: right;">75310</td>
+<td style="text-align: right;">4886</td>
+<td style="text-align: right;">0.065</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Austin</td>
+<td style="text-align: left;">black</td>
+<td style="text-align: right;">2019</td>
+<td style="text-align: right;">5016</td>
+<td style="text-align: right;">322</td>
+<td style="text-align: right;">0.064</td>
 </tr>
 </tbody>
 </table>
@@ -965,7 +965,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SQL_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" alt="Line chart showing search rates over time for Black and White drivers across five U.S. cities. Each panel represents a different city, and within each panel, two lines track yearly search rates by race." width="672"></p>
+<p><img src="SQL_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -985,7 +985,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SQL_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" alt="Bar chart comparing total traffic stops of Black and White drivers across five U.S. cities. Each city has two bars side-by-side showing total stops by race." width="672"></p>
+<p><img src="SQL_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

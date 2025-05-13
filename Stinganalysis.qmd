@@ -57,7 +57,8 @@ NYTimesv2 <- NYTimes |>
 
 ```
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig-alt: "Bar chart showing the number of political headlines in the NYTimes mentioning each of several global locations. Locations are ordered by frequency, with darker fill indicating more mentions."}
+#| fig-alt: "Bar chart showing the number of political headlines in the NYTimes mentioning each of several global locations. Locations are ordered by frequency, with darker fill indicating more mentions."
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
 # This chunk creates a Bar chart which depicts the most mentioned locations in political articles
 ggplot(NYTimesv2, aes(x = location, y = article_count, fill = article_count)) +
@@ -87,7 +88,8 @@ NYTimesv3 <- NYTimes |>
   arrange(Year)
 ```
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig-alt: "Line chart showing the number of political articles in the NYTimes each year that mention major global locations. The line shows increases or dips in coverage volume over time."}
+#| fig-alt:"Line chart showing the number of political articles in the NYTimes each year that mention major global locations. The line shows increases or dips in coverage volume over time."
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
 #In this chunk, we create a line chart that counts the amount of political article frequency by year
 
