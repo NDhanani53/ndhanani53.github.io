@@ -72,9 +72,8 @@ Variables:
 -   Wide Receiver - Salary of the top-paid wide receivers (USD)
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-
 #| fig-alt: "This chart compares NFL salaries by position. Each box shows the range of salaries for a position across all years, with the line inside representing the median. Taller or higher boxes indicate higher or more variable salaries. Quarterbacks and Offensive Linemen tend to earn the most, while positions like Special Teamers and Tight Ends earn less and show less variation in pay."
-#| 
+
 # Reshape the data from wide to long format
 # Keeps 'year' as is, and stacks the salary data by position into two columns: 'position' and 'salary'
 

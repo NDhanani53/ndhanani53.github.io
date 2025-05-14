@@ -292,22 +292,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">GDP_Group =</span> <span class="fu">ifelse</span>(GDP_Per_Capita <span class="sc">&gt;=</span> median_gdp, <span class="st">"High"</span>, <span class="st">"Low"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "This chart shows two boxes, one for high-GDP countries and one for low-GDP countries, to compare the percentage of people age 15 and older who have a financial account. The x-axis shows the GDP group (high or low), and the y-axis shows the percentage of account ownership. Each box shows the range of values within that group. The line in the center of each box marks the median, or typical value. High-GDP countries have a higher median, meaning account access is more common and consistent. Low-GDP countries have lower percentages."</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates a boxplot to compare account ownership (age 15+) between high and low-GDP countries.</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates a boxplot to compare account ownership (age 15+) between high and low-GDP countries.</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>GDP_analysis <span class="sc">|&gt;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> GDP_Group, <span class="at">y =</span> Account_15plus)) <span class="sc">+</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Financial Account Ownership by GDP Group"</span>,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"GDP Group (High vs Low Income Countries)"</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Percent with Financial Account (Age 15+)"</span>) <span class="sc">+</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>GDP_analysis <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> GDP_Group, <span class="at">y =</span> Account_15plus)) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Financial Account Ownership by GDP Group"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"GDP Group (High vs Low Income Countries)"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Percent with Financial Account (Age 15+)"</span>) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="permutation_test_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="permutation_test_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" alt="This chart shows two boxes, one for high-GDP countries and one for low-GDP countries, to compare the percentage of people age 15 and older who have a financial account. The x-axis shows the GDP group (high or low), and the y-axis shows the percentage of account ownership. Each box shows the range of values within that group. The line in the center of each box marks the median, or typical value. High-GDP countries have a higher median, meaning account access is more common and consistent. Low-GDP countries have lower percentages." width="672"></p>
 </figure>
 </div>
 </div>
@@ -360,56 +358,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 6 × 5
   obs_ave_diff obs_med_diff perm_ave_diff perm_med_diff   rep
          &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt; &lt;int&gt;
-1       -0.459       -0.572       0.0185         0.0934     1
-2       -0.459       -0.572      -0.0109        -0.114      2
-3       -0.459       -0.572       0.00156       -0.0881     3
-4       -0.459       -0.572       0.0648         0.0819     4
-5       -0.459       -0.572      -0.0925        -0.276      5
-6       -0.459       -0.572       0.0558         0.151      6</code></pre>
+1       -0.459       -0.572      -0.0256        -0.131      1
+2       -0.459       -0.572       0.0354         0.0855     2
+3       -0.459       -0.572      -0.00717        0.0220     3
+4       -0.459       -0.572      -0.0333        -0.131      4
+5       -0.459       -0.572      -0.0114        -0.0616     5
+6       -0.459       -0.572      -0.0138        -0.0875     6</code></pre>
 </div>
 </div>
 <p><strong>My Analysis:</strong></p>
 <p>In my analysis, I aimed to investigate whether countries with higher GDP per capita also have greater access to financial institutions. To do this, I began by importing and cleaning the dataset, converting relevant financial indicators to numeric form. I then split countries into “High” and “Low” GDP groups based on the median GDP per capita. The main variable of interest is the percentage of adults aged 15+ with a bank account. To test whether the observed difference in account access between high- and low-GDP countries could be due to chance, I implemented a permutation test. This involved randomly shuffling the account access values across countries 1,000 times to simulate the distribution of differences we would expect under the null hypothesis of no relationship. For each iteration, I calculated the observed and permuted differences in both means and medians between the two groups. The results allow us to compare the actual observed difference to what we’d expect under random assignment, helping determine whether the relationship between GDP and financial access is statistically meaningful.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "This chart shows a histogram, which is a series of bars representing how often certain differences in means appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The red vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant."</span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This chunk plots the  distribution of mean differences in account ownership between GDP groups that were ran in the simulation</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This chunk plots the  distribution of mean differences in account ownership between GDP groups that were ran in the simulation</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perm_results, <span class="fu">aes</span>(<span class="at">x =</span> perm_ave_diff)) <span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(obs_ave_diff)), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Means of Account Ownership (15+)"</span>,</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Means (Low GDP - High GDP)"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perm_results, <span class="fu">aes</span>(<span class="at">x =</span> perm_ave_diff)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"skyblue"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(obs_ave_diff)), <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Means of Account Ownership (15+)"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Means (Low GDP - High GDP)"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="permutation_test_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="permutation_test_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" alt="This chart shows a histogram, which is a series of bars representing how often certain differences in means appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The red vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant." width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-alt: "This chart shows a histogram, which is a series of bars representing how often certain differences in medians appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The blue vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant."</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This chunk plots the  distribution of median differences in account ownership between GDP groups that were ran in the simulation</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This chunk plots the  distribution of median differences in account ownership between GDP groups that were ran in the simulation</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perm_results, <span class="fu">aes</span>(<span class="at">x =</span> perm_med_diff)) <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"lightgreen"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(obs_med_diff)), <span class="at">color =</span> <span class="st">"blue"</span>,) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Medians of Account Ownership (15+)"</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Medians (Low GDP - High GDP)"</span>,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(perm_results, <span class="fu">aes</span>(<span class="at">x =</span> perm_med_diff)) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"lightgreen"</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(obs_med_diff)), <span class="at">color =</span> <span class="st">"blue"</span>,) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Medians of Account Ownership (15+)"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Medians (Low GDP - High GDP)"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="permutation_test_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="permutation_test_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" alt="This chart shows a histogram, which is a series of bars representing how often certain differences in medians appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The blue vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant." width="672"></p>
 </figure>
 </div>
 </div>

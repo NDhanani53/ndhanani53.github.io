@@ -66,7 +66,6 @@ GDP_analysis <- GDP_analysis |>
 
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-
 #| fig-alt: "This chart shows two boxes, one for high-GDP countries and one for low-GDP countries, to compare the percentage of people age 15 and older who have a financial account. The x-axis shows the GDP group (high or low), and the y-axis shows the percentage of account ownership. Each box shows the range of values within that group. The line in the center of each box marks the median, or typical value. High-GDP countries have a higher median, meaning account access is more common and consistent. Low-GDP countries have lower percentages."
 
 # Creates a boxplot to compare account ownership (age 15+) between high and low-GDP countries.
@@ -144,7 +143,6 @@ head(perm_results)
 In my analysis, I aimed to investigate whether countries with higher GDP per capita also have greater access to financial institutions. To do this, I began by importing and cleaning the dataset, converting relevant financial indicators to numeric form. I then split countries into "High" and "Low" GDP groups based on the median GDP per capita. The main variable of interest is the percentage of adults aged 15+ with a bank account. To test whether the observed difference in account access between high- and low-GDP countries could be due to chance, I implemented a permutation test. This involved randomly shuffling the account access values across countries 1,000 times to simulate the distribution of differences we would expect under the null hypothesis of no relationship. For each iteration, I calculated the observed and permuted differences in both means and medians between the two groups. The results allow us to compare the actual observed difference to what we’d expect under random assignment, helping determine whether the relationship between GDP and financial access is statistically meaningful.
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-
 #| fig-alt: "This chart shows a histogram, which is a series of bars representing how often certain differences in means appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The red vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant."
 
 # This chunk plots the  distribution of mean differences in account ownership between GDP groups that were ran in the simulation
@@ -162,7 +160,6 @@ ggplot(perm_results, aes(x = perm_ave_diff)) +
 ```
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE,}
-
 #| fig-alt: "This chart shows a histogram, which is a series of bars representing how often certain differences in medians appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The blue vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant."
 
 # This chunk plots the  distribution of median differences in account ownership between GDP groups that were ran in the simulation

@@ -75,7 +75,6 @@ NYTimesv2 <- NYTimes |>
 ```
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-
 #| fig-alt: "This chart uses vertical bars to show which locations were mentioned most often in political news articles. The x-axis lists different locations, and the y-axis shows how many articles mentioned each one. Each bar’s height shows how frequently that location appeared and how blue they are represents the article count.From right to left, the bars get shorter and lose their blue color to represent a decreasing number of articles. China and Mexico are most frequently mentioned"
 
 # This chunk creates a Bar chart which depicts the most mentioned locations in political articles
@@ -107,7 +106,6 @@ NYTimesv3 <- NYTimes |>
 ```
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
-
 #| fig-alt: "Line chart showing the number of political articles in the NYTimes each year that mention major global locations. The line shows an overall decrease in political menioning but fluctuates in time periods where their is increasing and decreasing amount of political mentions in articles."
 
 #In this chunk, we create a line chart that counts the amount of political article frequency by year
