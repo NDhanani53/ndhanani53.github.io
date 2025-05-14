@@ -8,7 +8,7 @@ format: html
 ---
 
 Introduction:\
-To understand how caloric content varies across different fast food restaurants, I analyzed a dataset containing menu item information from multiple chains. After importing the data, I focused on the calories variable and used ggplot2 to create box plots of calorie counts for each restaurant. By using facet_wrap, I generated separate plots for each chain, allowing for side-by-side comparison of the distribution of calories per item. This visualization helps identify which restaurants tend to offer higher-calorie foods and which ones have more balanced or lower-calorie options.
+To understand how caloric content varies across different fast food restaurants, I analyzed a data set containing menu item information from multiple chains. After importing the data, I focused on the calories variable and used ggplot2 to create box plots of calorie counts for each restaurant. By using facet_wrap, I generated separate plots for each chain, allowing for side-by-side comparison of the distribution of calories per item. This visualization helps identify which restaurants tend to offer higher-calorie foods and which ones have more balanced or lower-calorie options.
 
 Exploratory Analysis:
 
