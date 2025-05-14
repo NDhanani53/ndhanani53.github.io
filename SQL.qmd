@@ -31,7 +31,7 @@ DBI::dbListTables(con_traffic)
 
 ```
 
-```{sql, connection=con_traffic}
+```{sql, connection=con_traffic, output.var="nashville_df"}
 # Query Nashville traffic stop data to calculate search rates for Black and White drivers by year
 
 SELECT 
@@ -49,9 +49,31 @@ WHERE
 GROUP BY subject_race, YEAR(date)
 ORDER BY subject_race, YEAR(date);
 ```
-In Nashville, I examined racial disparities in police searches over time. The data show the number of total stops, searches, and the resulting search rate for Black and White drivers from each year. This allows us to track whether search rates differ by race and whether those disparities have changed over time.
 
-```{sql, connection=con_traffic}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+library(ggplot2)
+library(dplyr)
+
+# This code creates a boxplot comparing search rates for Black and White drivers in Nashville.
+# The search rate is calculated as the number of searches divided by the total number of stops, and is visualized as a distribution for each racial group across all years combined.
+
+
+nashville_df |>
+  mutate(search_rate = searches / total_stops) |>
+  ggplot(aes(x = race, y = search_rate, fill = race)) +
+  geom_boxplot() +
+  labs(
+    title = "Overall Search Rate by Race in Nashville",
+    x = "Driver Race",
+    y = "Search Rate",
+    fill = "Driver Race",
+    alt = "This chart shows two vertical boxplots, one for black drivers and one for white drivers in Nashville. The x-axis shows the driver’s race, and the y-axis shows the search rate, which means how often drivers were searched during traffic stops. Each box shows the range of search rates across multiple years. The line in the middle of the box is the median (typical) search rate, and the height of the box shows how much the rates vary. We see that the box representing black individuals is much higher that white individual which shows that, on average, black drivers are searched more frequently than white drivers") +
+  theme_minimal()
+```
+This graph shows a Boxplot that plots the distribution of search rates for Black and White drivers in Nashville. Each box represents the total number of search rates  within each racial group. The higher median for Black drivers suggests they were searched more frequently across all the years we have data forthan White drivers.
+
+
+```{sql, connection=con_traffic, output.var="charlotte_df" }
 
 # Query Charlotte traffic stop data to calculate search rates for Black and White drivers by year
 
@@ -70,9 +92,29 @@ WHERE
 GROUP BY subject_race, YEAR(date)
 ORDER BY subject_race, YEAR(date);
 ```
-This query analyzes police search behavior in Charlotte. By comparing the yearly search rates for Black and White drivers, we can identify whether racial disparities exist and whether they have narrowed or widened in recent years. The summary table gives a year-by-year breakdown of search activity.
 
-```{sql, connection=con_traffic}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+
+# This code creates a boxplot comparing search rates for Black and White drivers in Charlotte
+# The search rate is calculated as the number of searches divided by the total number of stops, and is visualized as a distribution for each racial group across all years combined.
+
+charlotte_df |>
+  mutate(search_rate = searches / total_stops) |>
+  ggplot(aes(x = race, y = search_rate, fill = race)) +
+  geom_boxplot() +
+  labs(
+    title = "Overall Search Rate by Race in Charlotte",
+    x = "Driver Race",
+    y = "Search Rate",
+    fill = "Driver Race",
+    alt = "This chart shows two vertical boxplots, one for black drivers and one for white drivers in Charlotte The x-axis shows the driver’s race, and the y-axis shows the search rate, which means how often drivers were searched during traffic stops. Each box shows the range of search rates across multiple years. The line in the middle of the box is the median (typical) search rate, and the height of the box shows how much the rates vary. We see that the box representing black individuals is much higher that white individual which shows that, on average, black drivers are searched more frequently than white drivers") +
+  theme_minimal()
+```
+
+This graph shows a Boxplot that plots the distribution of search rates for Black and White drivers in Charlotte Each box represents the total number of search rates  within each racial group. The higher median for Black drivers suggests they were searched more frequently across all the years we have data forthan White drivers.
+
+
+```{sql, connection=con_traffic, output.var="saint_paul_df"}
 
 # Query Saint Paul traffic stop data to calculate search rates for Black and White drivers by year
 
@@ -91,10 +133,28 @@ WHERE
 GROUP BY subject_race, YEAR(date)
 ORDER BY subject_race, YEAR(date);
 ```
-The Saint Paul data highlights racial disparities in search rates between Black and White drivers. Each row summarizes stop and search activity for a particular year, helping us assess whether the city's policing practices have evolved or remained consistent over time.
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+# This code creates a boxplot comparing search rates for Black and White drivers in Saint Paul
+# The search rate is calculated as the number of searches divided by the total number of stops, and is visualized as a distribution for each racial group across all years combined.
+
+saint_paul_df |>
+  mutate(search_rate = searches / total_stops) |>
+  ggplot(aes(x = race, y = search_rate, fill = race)) +
+  geom_boxplot() +
+  labs(
+    title = "Overall Search Rate by Race in Saint Paul",
+    x = "Driver Race",
+    y = "Search Rate",
+    fill = "Driver Race",
+    alt = "This chart shows two vertical boxplots, one for black drivers and one for white drivers in Saint Paul The x-axis shows the driver’s race, and the y-axis shows the search rate, which means how often drivers were searched during traffic stops. Each box shows the range of search rates across multiple years. The line in the middle of the box is the median (typical) search rate, and the height of the box shows how much the rates vary. We see that the box representing black individuals is much higher that white individual which shows that, on average, black drivers are searched more frequently than white drivers") +
+  theme_minimal()
+```
+
+This graph shows a Boxplot that plots the distribution of search rates for Black and White drivers in Saint Paul Each box represents the total number of search rates  within each racial group. The higher median for Black drivers suggests they were searched more frequently across all the years we have data forthan White drivers.
 
 
-```{sql, connection=con_traffic}
+```{sql, connection=con_traffic, output.var="new_orleans_df"}
 
 # Query New Orleans traffic stop data to calculate search rates for Black and White drivers by year
 
@@ -113,9 +173,29 @@ WHERE
 GROUP BY subject_race, YEAR(date)
 ORDER BY subject_race, YEAR(date);
 ```
-In New Orleans, I explore annual search rates for Black and White drivers. This table helps reveal whether racial disparities in search behavior exist and if they are persistent across years. The presence of any consistent differences can point to systemic patterns in local policing.
 
-```{sql, connection=con_traffic}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+
+# This code creates a boxplot comparing search rates for Black and White drivers in New Orleans
+# The search rate is calculated as the number of searches divided by the total number of stops, and is visualized as a distribution for each racial group across all years combined.
+
+new_orleans_df |>
+  mutate(search_rate = searches / total_stops) |>
+  ggplot(aes(x = race, y = search_rate, fill = race)) +
+  geom_boxplot() +
+  labs(
+    title = "Overall Search Rate by Race in New Orleans",
+    x = "Driver Race",
+    y = "Search Rate",
+    fill = "Driver Race",
+    alt = "This chart shows two vertical boxplots, one for black drivers and one for white drivers in New Orleans The x-axis shows the driver’s race, and the y-axis shows the search rate, which means how often drivers were searched during traffic stops. Each box shows the range of search rates across multiple years. The line in the middle of the box is the median (typical) search rate, and the height of the box shows how much the rates vary. We see that the box representing black individuals is much higher that white individual which shows that, on average, black drivers are searched more frequently than white drivers") +
+  theme_minimal()
+```
+
+This graph shows a Boxplot that plots the distribution of search rates for Black and White drivers in New Orleans Each box represents the total number of search rates  within each racial group. The higher median for Black drivers suggests they were searched more frequently across all the years we have data forthan White drivers.
+
+
+```{sql, connection=con_traffic, output.var="austin_df"}
 
 # Query Austin traffic stop data to calculate search rates for Black and White drivers by year
 
@@ -134,7 +214,26 @@ WHERE
 GROUP BY subject_race, YEAR(date)
 ORDER BY subject_race, YEAR(date);
 ```
-The Austin dataset provides insight into how stop and search practices differ by race over time. The query outputs a breakdown of total stops, number of searches, and calculated search rates, allowing a clear comparison of treatment between Black and White drivers on a yearly basis.
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+
+# This code creates a boxplot comparing search rates for Black and White drivers in Austin
+# The search rate is calculated as the number of searches divided by the total number of stops, and is visualized as a distribution for each racial group across all years combined.
+
+austin_df |>
+  mutate(search_rate = searches / total_stops) |>
+  ggplot(aes(x = race, y = search_rate, fill = race)) +
+  geom_boxplot() +
+  labs(
+    title = "Overall Search Rate by Race in Austin",
+    x = "Driver Race",
+    y = "Search Rate",
+    fill = "Driver Race",
+    alt = "This chart shows two vertical boxplots, one for black drivers and one for white drivers in Austin The x-axis shows the driver’s race, and the y-axis shows the search rate, which means how often drivers were searched during traffic stops. Each box shows the range of search rates across multiple years. The line in the middle of the box is the median (typical) search rate, and the height of the box shows how much the rates vary. We see that the box representing black individuals is much higher that white individual which shows that, on average, black drivers are searched more frequently than white drivers") +
+  theme_minimal()
+```
+
+This graph shows a Boxplot that plots the distribution of search rates for Black and White drivers in Austin Each box represents the total number of search rates  within each racial group. The higher median for Black drivers suggests they were searched more frequently across all the years we have data forthan White drivers.
 
 
 ```{sql, connection=con_traffic, output.var="df"}
@@ -199,7 +298,7 @@ df |>
   facet_wrap(~ city) +
   labs(title = "Search Rate Over Time by Race and City",
        x = "Year", y = "Search Rate",
-       color = "Driver Race") +
+       color = "Driver Race", alt = "This chart shows a series of small line graphs, one for each city. Each small graph has two colored lines — one for Black drivers and one for White drivers. The x-axis shows the year, and the y-axis shows the search rate, which is the percentage of traffic stops that led to a search. The lines show how search rates changed over time for each race within each city. We see that the black driver line is consistently higher than the white driver line meaning black people are searched more often.") +
   theme_minimal()
 ```
 
@@ -217,7 +316,7 @@ df |>
   ggplot(aes(x = city, y = total_stops, fill = race)) +
   geom_col(position = "dodge") +
   labs(title = "Total Stops by Race and City",
-       x = "City", y = "Total Stops", fill = "Race") +
+       x = "City", y = "Total Stops", fill = "Race", alt = "This chart shows side-by-side bars for Black and White drivers in each of five cities. The x-axis shows the cities, and the y-axis shows the total number of traffic stops. Each city has two bars next to each other—one for each race—so you can directly compare how often each group was stopped in that city. we actually don't see a trend in which race gets stopped more so we know that Black drivers are searched at a hgiher rate not because they are stopped more but likely for other reasons such as racial bias.") +
   theme_minimal()
 ```
 This bar chart compares the total number of stops for Black and White drivers in each city over the full time period covered by the data. It shows this by having total stops on the y-axis and cities on the x-axis. We can see two bars for each city to show how many times black people were stopped and how many times white people were stopped. While some cities show more stops for White drivers and others for Black drivers, this variation likely reflects differences in each city’s racial demographics rather than disparities in policing alone. It could also be attributed to having some incomplete or less data in some years This plot provides important context for interpreting the search rate data by showing the baseline number of stops per group.

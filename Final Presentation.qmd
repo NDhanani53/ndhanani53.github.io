@@ -16,7 +16,7 @@ execute:
 
 ## Introduction & Methodology
 
-**Research Question:** Does greater access to financial institutions correlate with higher national wealth, as measured by GDP per Capita?
+**Research Question:** Does greater access to financial institutions correlate with higher national wealth, as measured by GDP per capita?
 
 **Data Overview:**
 
@@ -24,7 +24,7 @@ execute:
 
 -   Variables sourced from World Bank/Wolrdometer
 
--   Countries grouped by median GDP per Capita:
+-   Countries grouped by median GDP per capita:
 
     -   *High GDP group*: Above median
 
@@ -38,9 +38,9 @@ execute:
 
 -   1,000 iterations with random shuffling
 
-## Data Preperation
+## Data Preparation
 
-```{r}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 library(tidyverse)
 library(readxl)
 
@@ -64,7 +64,7 @@ GDP_analysis <- GDP_analysis |>
   mutate(GDP_Group = ifelse(GDP_Per_Capita >= median_gdp, "High", "Low"))
 ```
 
-## Boxplot Visualization
+## Box plot Visualization
 
 ```{r, boxplot-access-account, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig.width=8, fig.height=5, out.width='800px', fig.align='center'}
 GDP_analysis |>
@@ -76,11 +76,11 @@ GDP_analysis |>
 
 **Null hypothesis:**
 
-There is no difference in the degree of access to financial institutions between countries with higher and lower GDP per Capita.
+There is no difference in the degree of access to financial institutions between countries with higher and lower GDP per capita.
 
 **Alternate Hypothesis:**
 
-Countries with a higher GDP per Capita have greater access to financial institutions than those with a lower GDP per Capita.
+Countries with a higher GDP per capita have greater access to financial institutions than those with a lower GDP per capita.
 
 ```{r echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 perm_data <- function(rep, data) {
@@ -126,7 +126,7 @@ ggplot(perm_results, aes(x = perm_ave_diff)) +
 
 ```
 
-```{r}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 ggplot(perm_results, aes(x = perm_med_diff)) +
   geom_histogram(bins = 30, fill = "lightgreen", color = "black") +
   geom_vline(aes(xintercept = mean(obs_med_diff)), color = "blue",) +

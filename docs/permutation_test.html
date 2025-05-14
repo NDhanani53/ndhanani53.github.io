@@ -8,7 +8,7 @@
 
 <meta name="author" content="Nathan Dhanani">
 <meta name="dcterms.date" content="2025-04-02">
-<meta name="description" content="Raw data source for financial institution access Raw data source for GDP per Capita I got the data that understood GDP per Capita for the 120 countries I analyzed from worldometer and combined it with the financial data I obtained from the world bank. I cleaned up the data getting rid of countries for which we had incomplete data, as well as narrowing down the many variables the orgignal data had to just 5 variables being the ones listed below.">
+<meta name="description" content="Raw data source for financial institution access Raw data source for GDP per capita I got the data that understood GDP per capita for the 120 countries I analyzed from worldometer and combined it with the financial data I obtained from the world bank. I cleaned up the data getting rid of countries for which we had incomplete data, as well as narrowing down the many variables the orgignal data had to just 5 variables being the ones listed below.">
 
 <title>Financial Institution’s effect on GDP – Nathan Dhanani</title>
 <style>
@@ -222,7 +222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    <p><a href="https://www.worldbank.org/en/publication/globalfindex/Data">Raw data source for financial institution access</a> <a href="https://www.worldometers.info/gdp/gdp-per-capita/">Raw data source for GDP per Capita</a> I got the data that understood GDP per Capita for the 120 countries I analyzed from worldometer and combined it with the financial data I obtained from the world bank. I cleaned up the data getting rid of countries for which we had incomplete data, as well as narrowing down the many variables the orgignal data had to just 5 variables being the ones listed below.</p>
+    <p><a href="https://www.worldbank.org/en/publication/globalfindex/Data">Raw data source for financial institution access</a> <a href="https://www.worldometers.info/gdp/gdp-per-capita/">Raw data source for GDP per capita</a> I got the data that understood GDP per capita for the 120 countries I analyzed from worldometer and combined it with the financial data I obtained from the world bank. I cleaned up the data getting rid of countries for which we had incomplete data, as well as narrowing down the many variables the orgignal data had to just 5 variables being the ones listed below.</p>
   </div>
 </div>
 
@@ -252,17 +252,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><strong>Context of the problem:</strong></p>
-<p>The point of this analysis is to explore how access to financial institutions and services such as having a checking account correlates with a nation’s GDP and to explore the relationship between the two. We are exploring GDP per Capita for 120 nations in USD. We are measuring how GDP per Capita is correlates with the percent of the population 15+ and older who have access to a financial institution account. Among the data we also have other variables to measure access to financial institutions such as:</p>
+<p>The point of this analysis is to explore how access to financial institutions and services such as having a checking account correlates with a nation’s GDP and to explore the relationship between the two. We are exploring GDP per capita for 120 nations in USD. We are measuring how GDP per capita is correlates with the percent of the population 15+ and older who have access to a financial institution account. Among the data we also have other variables to measure access to financial institutions such as:</p>
 <p>Saved at a financial institution (% age 15+)</p>
 <p>Borrowed from a formal financial institution (% age 15+)</p>
 <p>Account, female (% age 15+)</p>
 <p>Account, male (% age 15+)</p>
 <p>Owns a credit card (% age 15+)</p>
-<p>I split countries into two groups based on the median GDP per Capita:</p>
+<p>I split countries into two groups based on the median GDP per capita:</p>
 <p>High GDP group: Countries above the median</p>
 <p>Low GDP group: Countries below the median</p>
 <p><strong>Why this is interesting to analyze:</strong></p>
-<p>Understanding if economic development relates to financial inclusion can be interesting to study to hopefully understand what makes a nation wealthy and may aid in policy and development strategy. If we notice countries with greater access to financial institutions have a larger GDP per Capita than maybe we can identify financial institutions as one of many potential drivers in generating wealth for a country. Understanding this could help address policy going forward in low-income countries. If these countries implement policies that expand access to financial institutions, it could help increase their GDP per Capita and improve a nation’s wealth, which would also improve the standard of living, overall happiness, and quality of life. Though studying this relationship does not mean there is a direct cause, it could be the start of a study in which we could hopefully identify the cause eventually. We are mostly understanding the relationship, but if there is a significant relationship, it is interesting to hypothesize that there may be some causation.</p>
+<p>Understanding if economic development relates to financial inclusion can be interesting to study to hopefully understand what makes a nation wealthy and may aid in policy and development strategy. If we notice countries with greater access to financial institutions have a larger GDP per capita than maybe we can identify financial institutions as one of many potential drivers in generating wealth for a country. Understanding this could help address policy going forward in low-income countries. If these countries implement policies that expand access to financial institutions, it could help increase their GDP per capita and improve a nation’s wealth, which would also improve the standard of living, overall happiness, and quality of life. Though studying this relationship does not mean there is a direct cause, it could be the start of a study in which we could hopefully identify the cause eventually. We are mostly understanding the relationship, but if there is a significant relationship, it is interesting to hypothesize that there may be some causation.</p>
 <p>Exploratory Analysis:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and clean GDP dataset, assign GDP groups based on the median GDP per capita</span></span>
@@ -296,23 +296,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>GDP_analysis <span class="sc">|&gt;</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> GDP_Group, <span class="at">y =</span> Account_15plus)) <span class="sc">+</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Financial Account Ownership by GDP Group"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"GDP Group (High vs Low Income Countries)"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Percent with Financial Account (Age 15+)"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">alt =</span> <span class="st">"This chart shows two boxes, one for high-GDP countries and one for low-GDP countries, to compare the percentage of people age 15 and older who have a financial account. The x-axis shows the GDP group (high or low), and the y-axis shows the percentage of account ownership. Each box shows the range of values within that group. The line in the center of each box marks the median, or typical value. High-GDP countries have a higher median, meaning account access is more common and consistent. Low-GDP countries have lower percentages."</span>) <span class="sc">+</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="permutation_test_files/figure-html/fig-alt-&quot;Boxplotcomparingfinancialaccountownershiprates(age15+)betweenhigh-GDPandlow-GDPcountries.Theplotshowsthathigh-GDPcountriestendtohavehighermedianaccountownership,withlessvariationcomparedtolow-GDPcountries.&quot;-1.png" class="img-fluid figure-img">{#fig-alt:“Boxplotcomparingfinancialaccountownershiprates(age15+)betweenhigh-GDPandlow-GDPcountries.Theplotshowsthathigh-GDPcountriestendtohavehighermedianaccountownership,withlessvariationcomparedtolow-GDPcountries.” width=672}</p>
+<p><img src="permutation_test_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><strong>Research question:</strong></p>
-<p>Does greater access to financial institutions correlate with higher national wealth, as measured by GDP per Capita?</p>
+<p>Does greater access to financial institutions correlate with higher national wealth, as measured by GDP per capita?</p>
 <p><strong>Null hypothesis:</strong></p>
-<p>There is no difference in the degree of access to financial institutions between countries with higher and lower GDP per Capita.</p>
+<p>There is no difference in the degree of access to financial institutions between countries with higher and lower GDP per capita.</p>
 <p><strong>Alternate Hypothesis:</strong></p>
-<p>Countries with a higher GDP per Capita have greater access to financial institutions than those with a lower GDP per Capita.</p>
+<p>Countries with a higher GDP per capita have greater access to financial institutions than those with a lower GDP per capita.</p>
 <p><strong>Plan:</strong></p>
-<p>To explore the relationship between a country’s wealth and financial access, I plan to compare the percentage of adults with bank accounts across high- and low-GDP countries. I plan to categorize countries into two groups based on the median GDP per Capita. To determine whether any observed difference in financial access was statistically significant, I plan to conduct a permutation test simulating the null hypothesis of no association. By repeatedly shuffling account access values and calculating the difference between groups, I aim to build a reference distribution to compare against the observed difference.</p>
+<p>To explore the relationship between a country’s wealth and financial access, I plan to compare the percentage of adults with bank accounts across high- and low-GDP countries. I plan to categorize countries into two groups based on the median GDP per capita. To determine whether any observed difference in financial access was statistically significant, I plan to conduct a permutation test simulating the null hypothesis of no association. By repeatedly shuffling account access values and calculating the difference between groups, I aim to build a reference distribution to compare against the observed difference.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to generate one permutation sample and calculate differences in means and medians</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -353,16 +359,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 6 × 5
   obs_ave_diff obs_med_diff perm_ave_diff perm_med_diff   rep
          &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt; &lt;int&gt;
-1       -0.459       -0.572       -0.0700       -0.155      1
-2       -0.459       -0.572        0.0663        0.131      2
-3       -0.459       -0.572        0.0517        0.101      3
-4       -0.459       -0.572        0.0349        0.0934     4
-5       -0.459       -0.572       -0.0349       -0.0634     5
-6       -0.459       -0.572        0.0286        0.0289     6</code></pre>
+1       -0.459       -0.572     -0.0256         -0.131      1
+2       -0.459       -0.572     -0.000415        0.0220     2
+3       -0.459       -0.572      0.0558          0.0934     3
+4       -0.459       -0.572     -0.0982         -0.229      4
+5       -0.459       -0.572     -0.0390          0.0220     5
+6       -0.459       -0.572     -0.0352          0.0220     6</code></pre>
 </div>
 </div>
 <p><strong>My Analysis:</strong></p>
-<p>In my analysis, I aimed to investigate whether countries with higher GDP per Capita also have greater access to financial institutions. To do this, I began by importing and cleaning the dataset, converting relevant financial indicators to numeric form. I then split countries into “High” and “Low” GDP groups based on the median GDP per Capita. The main variable of interest is the percentage of adults aged 15+ with a bank account. To test whether the observed difference in account access between high- and low-GDP countries could be due to chance, I implemented a permutation test. This involved randomly shuffling the account access values across countries 1,000 times to simulate the distribution of differences we would expect under the null hypothesis of no relationship. For each iteration, I calculated the observed and permuted differences in both means and medians between the two groups. The results allow us to compare the actual observed difference to what we’d expect under random assignment, helping determine whether the relationship between GDP and financial access is statistically meaningful.</p>
+<p>In my analysis, I aimed to investigate whether countries with higher GDP per capita also have greater access to financial institutions. To do this, I began by importing and cleaning the dataset, converting relevant financial indicators to numeric form. I then split countries into “High” and “Low” GDP groups based on the median GDP per capita. The main variable of interest is the percentage of adults aged 15+ with a bank account. To test whether the observed difference in account access between high- and low-GDP countries could be due to chance, I implemented a permutation test. This involved randomly shuffling the account access values across countries 1,000 times to simulate the distribution of differences we would expect under the null hypothesis of no relationship. For each iteration, I calculated the observed and permuted differences in both means and medians between the two groups. The results allow us to compare the actual observed difference to what we’d expect under random assignment, helping determine whether the relationship between GDP and financial access is statistically meaningful.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This chunk plots the  distribution of mean differences in account ownership between GDP groups that were ran in the simulation</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -373,13 +379,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Means of Account Ownership (15+)"</span>,</span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Means (Low GDP - High GDP)"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">alt =</span> <span class="st">"This chart shows a histogram, which is a series of bars representing how often certain differences in means appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The red vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant."</span>) <span class="sc">+</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="permutation_test_files/figure-html/fig-alt-&quot;Histogramshowingthedistributionofpermuteddifferencesinmeansoffinancialaccountownership(age15+)betweenlow-GDPandhigh-GDPcountries.Aredverticallineindicatestheobserveddifferencefromtheactualdata.&quot;-1.png" class="img-fluid figure-img">{#fig-alt:“Histogramshowingthedistributionofpermuteddifferencesinmeansoffinancialaccountownership(age15+)betweenlow-GDPandhigh-GDPcountries.Aredverticallineindicatestheobserveddifferencefromtheactualdata.” width=672}</p>
+<p><img src="permutation_test_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -394,13 +400,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Permutation Test: Difference in Medians of Account Ownership (15+)"</span>,</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Difference in Medians (Low GDP - High GDP)"</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">alt =</span> <span class="st">"This chart shows a histogram, which is a series of bars representing how often certain differences in medians appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The blue vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant."</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="permutation_test_files/figure-html/fig-alt-&quot;Histogramshowingthedistributionofpermuteddifferencesinmediansoffinancialaccountownership(age15+)betweenlow-GDPandhigh-GDPcountries.Ablueverticallinemarkstheobservedmediandifferencefromtherealdata.&quot;-1.png" class="img-fluid figure-img">{#fig-alt:“Histogramshowingthedistributionofpermuteddifferencesinmediansoffinancialaccountownership(age15+)betweenlow-GDPandhigh-GDPcountries.Ablueverticallinemarkstheobservedmediandifferencefromtherealdata.” width=672}</p>
+<p><img src="permutation_test_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -413,7 +420,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Who collected the data? The World Bank’s Development Research Group.</p>
 <p>Why? To measure how adults worldwide access and use financial services, including accounts, payments, savings, credit, and financial resilience.</p>
 <p>Original source: The Global Findex Database 2021, based on nationally representative surveys conducted in over 140 economies.</p>
-<p>Worldometer. (2024). GDP per Capita. Retrieved from https://www.worldometers.info/gdp/gdp-per-capita/</p>
+<p>Worldometer. (2024). GDP per capita. Retrieved from https://www.worldometers.info/gdp/gdp-per-capita/</p>
 <p>Who collected the data? Worldometer, compiling data from sources such as the World Bank’s World Development Indicators.</p>
 <p>Why? To provide up-to-date GDP per capita figures for countries worldwide, facilitating economic comparisons.</p>
 <p>Original source: World Bank’s World Development Indicators, as cited by Worldometer.</p>

@@ -252,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Introduction:</p>
-<p>In today’s media landscape, the New York Times remains one of the most influential news outlets, shaping public discourse on politics and international affairs. To better understand how political topics are covered in NYT headlines, this analysis explores a dataset of article titles, focusing on mentions of key political terms and global locations. By identifying headlines that reference terms like “election,” “president,” or “congress,” and extracting country or region names, we can begin to map out how political attention is distributed across the globe and how it has evolved throughout time. This exploration provides insight into the geographic focus of political reporting, how frequently certain regions appear in headlines, and how this coverage has changed over time. Through a combination of text filtering, and location extraction the following analysis aims to uncover patterns in political narrative emphasis and international visibility in the New York Times.</p>
+<p>In today’s media landscape, the New York Times remains one of the most influential news outlets, shaping public discourse on politics and international affairs. To better understand how political topics are covered in NYT headlines, this analysis explores a dataset of article titles, focusing on mentions of key political terms and global locations. By identifying headlines that reference terms like “election,” “president,” or “congress,” and extracting country or region names, we can begin to map out how political attention is distributed across the globe and how it has evolved throughout time. This exploration provides insight into the geographic focus of political reporting, how frequently certain regions appear in headlines, and how this coverage has changed over time. Through a combination of text filtering and location extraction, the following analysis aims to uncover patterns in political narrative emphasis and international visibility in the New York Times.</p>
 <p>Exploratory Analysis:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
@@ -260,69 +260,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(RTextTools)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the first few rows of the full dataset with all original variables</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(NYTimes)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(NYTimes, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   Article_ID      Date
-1       41246  1-Jan-96
-2       41257  2-Jan-96
-3       41268  3-Jan-96
-4       41279  4-Jan-96
-5       41290  5-Jan-96
-6       41302  7-Jan-96
-7       41314  8-Jan-96
-8       41333 10-Jan-96
-9       41344 11-Jan-96
-10      41355 12-Jan-96
-                                                                                            Title
-1                                   Nation's Smaller Jails Struggle To Cope With Surge in Inmates
-2                                                 FEDERAL IMPASSE SADDLING STATES WITH INDECISION
-3                             Long, Costly Prelude Does Little To Alter Plot of Presidential Race
-4                                    Top Leader of the Bosnian Serbs Now Under Attack From Within
-5         BATTLE OVER THE BUDGET: THE OVERVIEW; LEADERS IN HOUSE DROP G.O.P. PLAN ON U.S. WORKERS
-6                                                 South African Democracy Stumbles on Old Rivalry
-7                                                        Among Economists, Little Fear on Deficit
-8          BATTLE OVER THE BUDGET: THE OVERVIEW; TALKS ON BUDGET ARE PUT ON HOLD AMID UNCERTAINTY
-9                                                             High Court Is Cool To Census Change
-10 TURMOIL AT BARNEYS: THE DIFFICULTIES; Barneys Is Seeking Bankruptcy, Citing Fight With Partner
-                                                                                      Subject
-1                                                   Jails overwhelmed with hardened criminals
-2                                                     Federal budget impasse affect on states
-3                                                  Contenders for 1996 Presedential elections
-4                                                  Bosnian Serb leader criticized from within
-5  Battle over budget: Republican leaders abandon strategy of using closed Government offices
-6                                                          political violence in south africa
-7                                                          economists not afraid of a deficit
-8                                                                                budget fight
-9                                                                              census changes
-10                                                                   barneys seeks bankruptcy
-   Topic.Code
-1          12
-2          20
-3          20
-4          19
-5           1
-6          19
-7           1
-8           1
-9          20
-10         15</code></pre>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"NYTimes"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert date and extract year</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>NYTimes <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> <span class="fu">dmy</span>(Date), <span class="at">Year =</span> <span class="fu">year</span>(Date)) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Year) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Number of NYTimes Articles per Year"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Article Count"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">alt =</span> <span class="st">"The chart displays vertical bars, one for each year. The x-axis lists the years covered in the dataset, and the y-axis shows how many articles were published in each year. Taller bars mean more articles. This lets you easily see which years have more content and whether article volume increased, decreased, or stayed steady over time. The amoutn fo articles stayed consistent around 300 until 2003 where it drops to about 250 articles"</span>) <span class="sc">+</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Stinganalysis_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
+</div>
+<p>This bar chart shows the number of New York Times articles included in the dataset for each year. It gives an overview of the time span covered by the data and how many articles were published annually. This helps us understand the distribution of article volume over time, which is useful context before filtering or analyzing specific topics like politics or geography.</p>
 <p>Variables:</p>
 <ul>
 <li><p>Article_ID - A unique numerical identifier for each article in the dataset</p></li>
 <li><p>Date - The publication date of the article (usually in day-month-year format)</p></li>
-<li><p>Title - The article headline as it appeared in The New York Times Subject A brief summary or annotation describing the main idea of the article</p></li>
+<li><p>Title - The article headline as it appeared in The New York Times</p></li>
+<li><p>Subject - A brief summary or annotation describing the main idea of the article</p></li>
 <li><p>Topic.Code - A numeric code representing the article’s assigned policy topic or issue domain</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the NYTimes dataset and convert it to a tibble for easier handling</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(NYTimes)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(NYTimes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the NYTimes data set and convert it to a tibble for easier handling</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(NYTimes)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(NYTimes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3,104 × 5
    Article_ID Date      Title                                 Subject Topic.Code
@@ -353,24 +326,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">article_count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>)<span class="sc">|&gt;</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">location =</span> <span class="fu">fct_reorder</span>(location, article_count))  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>#| fig-alt: “Bar chart showing the number of political headlines in the NYTimes mentioning each of several global locations. Locations are ordered by frequency, with darker fill indicating more mentions.”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This chunk creates a Bar chart which depicts the most mentioned locations in political articles</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(NYTimesv2, <span class="fu">aes</span>(<span class="at">x =</span> location, <span class="at">y =</span> article_count, <span class="at">fill =</span> article_count)) <span class="sc">+</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Most Mentioned Locations in Political Articles"</span>,</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Location"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Articles"</span>) <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Articles"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">alt =</span> <span class="st">"This chart uses vertical bars to show which locations were mentioned most often in political news articles. The x-axis lists different locations, and the y-axis shows how many articles mentioned each one. Each bar’s height shows how frequently that location appeared and how blue they are represents the article count.From right to left, the bars get shorter and lose their blue color to represent a decreasing number of articles. China and Mexico are most frequently mentioned"</span>) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Stinganalysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Stinganalysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>This bar chart shows which geographic locations appear most frequently in political articles published by <em>The New York Times</em>. Each bar represents a specific location mentioned in political headlines, based on keywords like “election,” “vote,” “president,” etc. The data has been filtered to include only articles that reference both politics and one of several predefined countries or regions. The color gradient indicates the volume of mentions, making it easier to spot which places dominate the political conversation in NYT headlines.</p>
+<p>This bar chart shows which geographic locations appear most frequently in political articles published by The New York Times. Each bar represents a specific location mentioned in political headlines, based on keywords like “election,” “vote,” “president,” etc. The data has been filtered to include only articles that reference both politics and one of several predefined countries or regions. The color gradient indicates the volume of mentions, making it easier to spot which places dominate the political conversation in NYT headlines.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#In this chunk, we extract the year from each article date and count how many political headlines occurred each year. This helps us track The New York Times political coverage volume over time.</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -386,7 +359,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">article_count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>#| fig-alt:“Line chart showing the number of political articles in the NYTimes each year that mention major global locations. The line shows increases or dips in coverage volume over time.”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#In this chunk, we create a line chart that counts the amount of political article frequency by year</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -395,17 +367,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Political Articles Mentioning Key Locations Over Time"</span>,</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Articles"</span>) <span class="sc">+</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Number of Articles"</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">alt =</span> <span class="st">"Line chart showing the number of political articles in the NYTimes each year that mention major global locations. The line shows an overall decrease in political menioning but fluctuates in time periods where their is increasing and decreasing amount of political mentions in articles."</span>) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Stinganalysis_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Stinganalysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>This line chart tracks the number of political articles published each year by <em>The New York Times</em> that mention at least one major global location. By focusing only on political headlines containing specific keywords and country names, this plot visualizes how global political focus in NYT coverage has shifted or intensified over time. Spikes or dips in the line may correspond to key events such as presidential elections, international conflicts, or geopolitical crises.</p>
+<p>This line chart tracks the number of political articles published each year by The New York Times that mention at least one major global location. By focusing only on political headlines containing specific keywords and country names, this plot visualizes how global political focus in NYT coverage has shifted or intensified over time. Spikes or dips in the line may correspond to key events such as presidential elections, international conflicts, or geopolitical crises.</p>
 <p>Citation:</p>
 <p>Boydstun, A. E. (2013). Supplementary Information for: Making the News: Politics, the Media, and Agenda Setting. Retrieved from http://www.amber-boydstun.com/supplementary-information-for-making-the-news.html</p>
 <p>Additional citation context:</p>

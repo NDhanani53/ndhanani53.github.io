@@ -252,35 +252,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Introduction:</p>
-<p>To explore how player compensation varies across different roles in the NFL, I analyzed a dataset containing salary data by position. Initially, the data was in wide format, with each column representing a different player position. To better visualize and compare the salary distributions across these positions, I reshaped the dataset into a long format using a pivot operation. This allowed me to create a single box plot chart displaying the spread, median, and variability of salaries for each position. The resulting visualization reveals clear disparities—most notably, the consistently higher salaries earned by quarterbacks, while positions like special teamer and safeties tend to fall on the lower end of the pay scale. This plot offers an accessible summary of the economic hierarchy within professional football.</p>
+<p>To explore how player compensation varies across different roles in the NFL, I analyzed a data set containing salary data by position. Initially, the data was in wide format, with each column representing a different player position. To better visualize and compare the salary distributions across these positions, I reshaped the data set into a long format using a pivot operation. This allowed me to create a single box plot chart displaying the spread, median, and variability of salaries for each position. The resulting visualization reveals clear disparities being: the consistently higher salaries earned by quarterbacks, while positions like special teams and safeties tend to fall on the lower end of the pay scale. This plot offers an accessible summary of the economic hierarchy within professional football.</p>
 <p>Exploratory Analysis:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>nfl_salary <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"nfl_salary.xlsx"</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the first few rows of the full dataset with all original variables</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(nfl_salary, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 10 × 11
-    year Cornerback `Defensive Lineman` Linebacker `Offensive Lineman`
-   &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;      &lt;dbl&gt;               &lt;dbl&gt;
- 1  2011   11265916            17818000   16420000            15960000
- 2  2011   11000000            16200000   15623000            12800000
- 3  2011   10000000            12476000   11825000            11767500
- 4  2011   10000000            11904706   10083333            10358200
- 5  2011   10000000            11762782   10020000            10000000
- 6  2011    9244117            11340000    8150000             9859166
- 7  2011    8000000            10000000    7812500             9500000
- 8  2011    7900000             9482500    7700000             9420000
- 9  2011    7400000             8450000    7200000             8880000
-10  2011    7000000             8383266    7100000             8686750
-# ℹ 6 more variables: Quarterback &lt;dbl&gt;, `Running Back` &lt;dbl&gt;, Safety &lt;dbl&gt;,
-#   `Special Teamer` &lt;dbl&gt;, `Tight End` &lt;dbl&gt;, `Wide Receiver` &lt;dbl&gt;</code></pre>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape data from wide to long format</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>nfl_long <span class="ot">&lt;-</span> nfl_salary <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>year, <span class="at">names_to =</span> <span class="st">"position"</span>, <span class="at">values_to =</span> <span class="st">"salary"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize total salary by position (across all years)</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>nfl_summary <span class="ot">&lt;-</span> nfl_long <span class="sc">|&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(position) <span class="sc">|&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_salary =</span> <span class="fu">sum</span>(salary, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_salary))</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar chart: total salary by position</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nfl_summary, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(position, total_salary), <span class="at">y =</span> total_salary)) <span class="sc">+</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Total NFL Salary by Position (All Years Combined)"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Position"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total Salary"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">alt =</span> <span class="st">"This bar chart shows how much money each NFL position earned in total, combining all years of data. The positions are listed along the vertical axis (from top to bottom), and the length of each horizontal blue bar shows the total salary for that position — longer bars mean more money earned.At the top of the chart (with the longest bars) are Quarterbacks and Offensive Linemen, meaning they earned the most overall. Toward the bottom (with shorter bars) are positions like Special Teamers and Tight Ends, which earned less. This chart helps you quickly see which roles NFL teams spend the most on. The bars are ordered from highest paid at the top to lowest paid at the bottom."</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="NFLsalaries_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
+</div>
+<p>Figure: This bar chart shows the total salary earned by each NFL position across all years included in the dataset. It provides a high-level overview of the data by highlighting which positions command the most salary overall. For example, positions like Defensive and Offensive Lineman clearly stand out as top earners, while roles like Special Teamer (special team positions) and Tight End earn less in aggregate. This chart helps the reader understand the distribution of financial investment across positions and serves as a starting point before diving into deeper analyses of salary variation or trends.</p>
 <p>Variables:</p>
 <ul>
 <li><p>year - The year the salary data was recorded</p></li>
@@ -296,51 +306,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Wide Receiver - Salary of the top-paid wide receivers (USD)</p></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary libraries for data manipulation and visualization</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the Excel file containing NFL salary data</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>file_path <span class="ot">&lt;-</span> <span class="st">"nfl_salary.xlsx"</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>nfl_salary <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(file_path)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape the data from wide to long format</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Keeps 'year' as is, and stacks the salary data by position into two columns: 'position' and 'salary'</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>nfl_long <span class="ot">&lt;-</span> nfl_salary <span class="sc">|&gt;</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>year,</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"position"</span>,</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"salary"</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a boxplot to visualize salary distribution by NFL position</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nfl_long, <span class="fu">aes</span>(<span class="at">x =</span> position, <span class="at">y =</span> salary)) <span class="sc">+</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"NFL Salaries by Position"</span>, <span class="at">x =</span> <span class="st">"Position"</span>, <span class="at">y =</span> <span class="st">"Salary"</span>) <span class="sc">+</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape the data from wide to long format</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Keeps 'year' as is, and stacks the salary data by position into two columns: 'position' and 'salary'</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>nfl_long <span class="ot">&lt;-</span> nfl_salary <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>year,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"position"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"salary"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a boxplot to visualize salary distribution by NFL position</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nfl_long, <span class="fu">aes</span>(<span class="at">x =</span> position, <span class="at">y =</span> salary)) <span class="sc">+</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"NFL Salaries by Position"</span>, <span class="at">x =</span> <span class="st">"Position"</span>, <span class="at">y =</span> <span class="st">"Salary"</span>, <span class="at">alt =</span> <span class="st">"This chart compares NFL salaries by position. Each box shows the range of salaries for a position across all years, with the line inside representing the median. Taller or higher boxes indicate higher or more variable salaries.</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="st">Quarterbacks and Offensive Linemen tend to earn the most, while positions like Special Teamers and Tight Ends earn less and show less variation in pay."</span>) <span class="sc">+</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="NFLsalaries_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" alt="This line plot shows average salaries for quarterbacks, running backs, and wide receivers from 2011 to 2020." width="672"></p>
+<p><img src="NFLsalaries_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>This boxplot shows the distribution of NFL player salaries by position. Each box represents the range of salaries for a given position across multiple players, highlighting the median, quartiles, and potential outliers. It allows for easy comparison of pay differences between positions, such as the typically higher salaries of quarterbacks compared to special teamers.</p>
+<p>This box plot shows the distribution of NFL player salaries by position. Each box represents the range of salaries for a given position across multiple players, highlighting the median, 25th % and 75th percentile, and potential outliers. It allows for easy comparison of pay differences between positions, such as the typically higher salaries of quarterbacks compared to special team positions.</p>
 <p>Citations:</p>
 <p>TidyTuesday source: Mock, T., &amp; TidyTuesday Project. (2018, April 9). <em>NFL salary data</em>. TidyTuesday. Retrieved from <a href="https://github.com/rfordatascience/tidytuesday/blob/main/data/2018/2018-04-09/nfl_salary.xlsx" class="uri">https://github.com/rfordatascience/tidytuesday/blob/main/data/2018/2018-04-09/nfl_salary.xlsx</a></p>
-<p>Original data source: Original data from Spotrac. (n.d.). <em>NFL player contracts</em>. Spotrac. Retrieved from https://www.spotrac.com/nfl/rankings/</p>
-<p>Additional citation context:</p>
 <ul>
-<li><p>Collector: The dataset was compiled and shared by Thomas Mock as part of the weekly TidyTuesday project.</p></li>
-<li><p>Purpose: The dataset is intended for data visualization and wrangling practice in the R programming language.</p></li>
-<li><p>Original source: The salary data was scraped from Spotrac, a site that tracks sports contracts and salaries.</p></li>
-<li><p>Why collected: This dataset was curated to encourage open data analysis, reproducible research, and collaborative learning among the R community.</p></li>
+<li><p>Who collected the data: The data set was compiled and shared by Thomas Mock as part of the weekly TidyTuesday project.</p></li>
+<li><p>What is the original source of the information: The salary data was scraped from Spotrac, a site that tracks sports contracts and salaries.</p></li>
+<li><p>Why was the data collected: This data set was curated to encourage open data analysis, reproducible research, and collaborative learning among the R community.</p></li>
+</ul>
+<p>Original data source: Original data from Spotrac. (n.d.). <em>NFL player contracts</em>. Spotrac. Retrieved from https://www.spotrac.com/nfl/rankings/</p>
+<ul>
+<li><p>Who collected the data: The data was collected and published by Spotrac, a private sports analytics and contract tracking company. Spotrac compiles, maintains, and publicly shares detailed financial data on professional athletes across major sports leagues, including the NFL.</p></li>
+<li><p>What is the original source of the information: The original source of the data is a combination of publicly available contract disclosures from NFL teams, filings from the NFL Players Association (NFLPA), and Spotrac’s own data aggregation and validation efforts. Spotrac compiles and cross-checks information through league sources and media reports to ensure accuracy. While Spotrac is not an official source affiliated with the NFL, it is a widely recognized and trusted aggregator of player contract and salary data, frequently cited by media outlets, sports analysts, and researchers.</p></li>
+<li><p>Why was the data collected: Spotrac collects this data to provide transparency and insight into player contracts, salary cap figures, team payrolls, and other financial metrics relevant to fans, analysts, journalists, agents, and front offices. The goal is to make contract information publicly accessible and comparable across players and teams.</p></li>
 </ul>
 
 

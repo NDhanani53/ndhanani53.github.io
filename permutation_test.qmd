@@ -2,15 +2,15 @@
 title: "Financial Institution's effect on GDP"
 format: html
 description: |
- [Raw data source for financial institution access](https://www.worldbank.org/en/publication/globalfindex/Data) [Raw data source for GDP per Capita](https://www.worldometers.info/gdp/gdp-per-capita/)
- I got the data that understood GDP per Capita for the 120 countries I analyzed from worldometer and combined it with the financial data I obtained from the world bank. I cleaned up the data getting rid of countries for which we had incomplete data, as well as narrowing down the many variables the orgignal data had to just 5 variables being the ones listed below.
+ [Raw data source for financial institution access](https://www.worldbank.org/en/publication/globalfindex/Data) [Raw data source for GDP per capita](https://www.worldometers.info/gdp/gdp-per-capita/)
+ I got the data that understood GDP per capita for the 120 countries I analyzed from worldometer and combined it with the financial data I obtained from the world bank. I cleaned up the data getting rid of countries for which we had incomplete data, as well as narrowing down the many variables the orgignal data had to just 5 variables being the ones listed below.
 author: Nathan Dhanani
 date: April 2, 2025
 ---
 
 **Context of the problem:**
 
-The point of this analysis is to explore how access to financial institutions and services such as having a checking account correlates with a nation's GDP and to explore the relationship between the two. We are exploring GDP per Capita for 120 nations in USD. We are measuring how GDP per Capita is correlates with the percent of the population 15+ and older who have access to a financial institution account. Among the data we also have other variables to measure access to financial institutions such as:
+The point of this analysis is to explore how access to financial institutions and services such as having a checking account correlates with a nation's GDP and to explore the relationship between the two. We are exploring GDP per capita for 120 nations in USD. We are measuring how GDP per capita is correlates with the percent of the population 15+ and older who have access to a financial institution account. Among the data we also have other variables to measure access to financial institutions such as:
 
 Saved at a financial institution (% age 15+)
 
@@ -22,7 +22,7 @@ Account, male (% age 15+)
 
 Owns a credit card (% age 15+)
 
-I split countries into two groups based on the median GDP per Capita:
+I split countries into two groups based on the median GDP per capita:
 
 High GDP group: Countries above the median
 
@@ -30,7 +30,7 @@ Low GDP group: Countries below the median
 
 **Why this is interesting to analyze:**
 
-Understanding if economic development relates to financial inclusion can be interesting to study to hopefully understand what makes a nation wealthy and may aid in policy and development strategy. If we notice countries with greater access to financial institutions have a larger GDP per Capita than maybe we can identify financial institutions as one of many potential drivers in generating wealth for a country. Understanding this could help address policy going forward in low-income countries. If these countries implement policies that expand access to financial institutions, it could help increase their GDP per Capita and improve a nation's wealth, which would also improve the standard of living, overall happiness, and quality of life. Though studying this relationship does not mean there is a direct cause, it could be the start of a study in which we could hopefully identify the cause eventually. We are mostly understanding the relationship, but if there is a significant relationship, it is interesting to hypothesize that there may be some causation.
+Understanding if economic development relates to financial inclusion can be interesting to study to hopefully understand what makes a nation wealthy and may aid in policy and development strategy. If we notice countries with greater access to financial institutions have a larger GDP per capita than maybe we can identify financial institutions as one of many potential drivers in generating wealth for a country. Understanding this could help address policy going forward in low-income countries. If these countries implement policies that expand access to financial institutions, it could help increase their GDP per capita and improve a nation's wealth, which would also improve the standard of living, overall happiness, and quality of life. Though studying this relationship does not mean there is a direct cause, it could be the start of a study in which we could hopefully identify the cause eventually. We are mostly understanding the relationship, but if there is a significant relationship, it is interesting to hypothesize that there may be some causation.
 
 Exploratory Analysis:
 
@@ -65,30 +65,36 @@ GDP_analysis <- GDP_analysis |>
 ```
 
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig-alt: "Boxplot comparing financial account ownership rates (age 15+) between high-GDP and low-GDP countries. The plot shows that high-GDP countries tend to have higher median account ownership, with less variation compared to low-GDP countries."}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
 # Creates a boxplot to compare account ownership (age 15+) between high and low-GDP countries.
 
 GDP_analysis |>
   ggplot(aes(x = GDP_Group, y = Account_15plus)) +
-  geom_boxplot()
+  geom_boxplot() + 
+  labs(
+    title = "Financial Account Ownership by GDP Group",
+    x = "GDP Group (High vs Low Income Countries)",
+    y = "Percent with Financial Account (Age 15+)",
+    alt = "This chart shows two boxes, one for high-GDP countries and one for low-GDP countries, to compare the percentage of people age 15 and older who have a financial account. The x-axis shows the GDP group (high or low), and the y-axis shows the percentage of account ownership. Each box shows the range of values within that group. The line in the center of each box marks the median, or typical value. High-GDP countries have a higher median, meaning account access is more common and consistent. Low-GDP countries have lower percentages.") +
+  theme_minimal()
 ```
 
 **Research question:**
 
-Does greater access to financial institutions correlate with higher national wealth, as measured by GDP per Capita?
+Does greater access to financial institutions correlate with higher national wealth, as measured by GDP per capita?
 
 **Null hypothesis:**
 
-There is no difference in the degree of access to financial institutions between countries with higher and lower GDP per Capita.
+There is no difference in the degree of access to financial institutions between countries with higher and lower GDP per capita.
 
 **Alternate Hypothesis:**
 
-Countries with a higher GDP per Capita have greater access to financial institutions than those with a lower GDP per Capita.
+Countries with a higher GDP per capita have greater access to financial institutions than those with a lower GDP per capita.
 
 **Plan:**
 
-To explore the relationship between a country’s wealth and financial access, I plan to compare the percentage of adults with bank accounts across high- and low-GDP countries. I plan to categorize countries into two groups based on the median GDP per Capita. To determine whether any observed difference in financial access was statistically significant, I plan to conduct a permutation test simulating the null hypothesis of no association. By repeatedly shuffling account access values and calculating the difference between groups, I aim to build a reference distribution to compare against the observed difference.
+To explore the relationship between a country’s wealth and financial access, I plan to compare the percentage of adults with bank accounts across high- and low-GDP countries. I plan to categorize countries into two groups based on the median GDP per capita. To determine whether any observed difference in financial access was statistically significant, I plan to conduct a permutation test simulating the null hypothesis of no association. By repeatedly shuffling account access values and calculating the difference between groups, I aim to build a reference distribution to compare against the observed difference.
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
@@ -133,9 +139,9 @@ head(perm_results)
 
 **My Analysis:**
 
-In my analysis, I aimed to investigate whether countries with higher GDP per Capita also have greater access to financial institutions. To do this, I began by importing and cleaning the dataset, converting relevant financial indicators to numeric form. I then split countries into "High" and "Low" GDP groups based on the median GDP per Capita. The main variable of interest is the percentage of adults aged 15+ with a bank account. To test whether the observed difference in account access between high- and low-GDP countries could be due to chance, I implemented a permutation test. This involved randomly shuffling the account access values across countries 1,000 times to simulate the distribution of differences we would expect under the null hypothesis of no relationship. For each iteration, I calculated the observed and permuted differences in both means and medians between the two groups. The results allow us to compare the actual observed difference to what we’d expect under random assignment, helping determine whether the relationship between GDP and financial access is statistically meaningful.
+In my analysis, I aimed to investigate whether countries with higher GDP per capita also have greater access to financial institutions. To do this, I began by importing and cleaning the dataset, converting relevant financial indicators to numeric form. I then split countries into "High" and "Low" GDP groups based on the median GDP per capita. The main variable of interest is the percentage of adults aged 15+ with a bank account. To test whether the observed difference in account access between high- and low-GDP countries could be due to chance, I implemented a permutation test. This involved randomly shuffling the account access values across countries 1,000 times to simulate the distribution of differences we would expect under the null hypothesis of no relationship. For each iteration, I calculated the observed and permuted differences in both means and medians between the two groups. The results allow us to compare the actual observed difference to what we’d expect under random assignment, helping determine whether the relationship between GDP and financial access is statistically meaningful.
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig-alt: "Histogram showing the distribution of permuted differences in means of financial account ownership (age 15+) between low-GDP and high-GDP countries. A red vertical line indicates the observed difference from the actual data."}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
 # This chunk plots the  distribution of mean differences in account ownership between GDP groups that were ran in the simulation
 
@@ -146,13 +152,13 @@ ggplot(perm_results, aes(x = perm_ave_diff)) +
   labs(
     title = "Permutation Test: Difference in Means of Account Ownership (15+)",
     x = "Difference in Means (Low GDP - High GDP)",
-    y = "Count"
-  ) +
+    y = "Count",
+    alt = "This chart shows a histogram, which is a series of bars representing how often certain differences in means appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The red vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant.") +
   theme_minimal()
 
 ```
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE, fig-alt: "Histogram showing the distribution of permuted differences in medians of financial account ownership (age 15+) between low-GDP and high-GDP countries. A blue vertical line marks the observed median difference from the real data."}
+```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE,}
 
 # This chunk plots the  distribution of median differences in account ownership between GDP groups that were ran in the simulation
 
@@ -163,7 +169,8 @@ ggplot(perm_results, aes(x = perm_med_diff)) +
   labs(
     title = "Permutation Test: Difference in Medians of Account Ownership (15+)",
     x = "Difference in Medians (Low GDP - High GDP)",
-    y = "Count"
+    y = "Count",
+    alt = "This chart shows a histogram, which is a series of bars representing how often certain differences in medians appeared during a permutation test. The x-axis shows the difference in account ownership between low- and high-GDP countries, and the y-axis shows how many times each difference occurred across the randomized trials. The blue vertical line marks the actual observed difference in the real data. This red line is far from the center of the bars and very much to the left. This suggests the real result is unusual and may be statistically significant."
   ) +
   theme_minimal()
 ```
@@ -185,7 +192,7 @@ Why? To measure how adults worldwide access and use financial services, includin
 
 Original source: The Global Findex Database 2021, based on nationally representative surveys conducted in over 140 economies.
 
-Worldometer. (2024). GDP per Capita. Retrieved from https://www.worldometers.info/gdp/gdp-per-capita/
+Worldometer. (2024). GDP per capita. Retrieved from https://www.worldometers.info/gdp/gdp-per-capita/
 
 Who collected the data? Worldometer, compiling data from sources such as the World Bank's World Development Indicators.
 
