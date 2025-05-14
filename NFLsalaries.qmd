@@ -15,6 +15,8 @@ To explore how player compensation varies across different roles in the NFL, I a
 Exploratory Analysis:
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
+#| fig-alt: "This bar chart shows how much money each NFL position earned in total, combining all years of data. The positions are listed along the vertical axis (from top to bottom), and the length of each horizontal blue bar shows the total salary for that position — longer bars mean more money earned. At the top of the chart (with the longest bars) are Quarterbacks and Offensive Linemen, meaning they earned the most overall. Toward the bottom (with shorter bars) are positions like Special Teamers and Tight Ends, which earned less. This chart helps you quickly see which roles NFL teams spend the most on. The bars are ordered from highest paid at the top to lowest paid at the bottom."
+
 library(tidyverse)
 library(readxl)
 
@@ -31,15 +33,14 @@ nfl_summary <- nfl_long |>
   summarise(total_salary = sum(salary, na.rm = TRUE)) |>
   arrange(desc(total_salary))
 
-# Bar chart: total salary by position
+# Create bar chart
 ggplot(nfl_summary, aes(x = reorder(position, total_salary), y = total_salary)) +
   geom_col(fill = "steelblue") +
   coord_flip() +
   labs(
     title = "Total NFL Salary by Position (All Years Combined)",
     x = "Position",
-    y = "Total Salary",
-    alt = "This bar chart shows how much money each NFL position earned in total, combining all years of data. The positions are listed along the vertical axis (from top to bottom), and the length of each horizontal blue bar shows the total salary for that position — longer bars mean more money earned.At the top of the chart (with the longest bars) are Quarterbacks and Offensive Linemen, meaning they earned the most overall. Toward the bottom (with shorter bars) are positions like Special Teamers and Tight Ends, which earned less. This chart helps you quickly see which roles NFL teams spend the most on. The bars are ordered from highest paid at the top to lowest paid at the bottom."
+    y = "Total Salary"
   ) +
   theme_minimal()
 ```
@@ -72,6 +73,8 @@ Variables:
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, error=FALSE}
 
+#| fig-alt: "This chart compares NFL salaries by position. Each box shows the range of salaries for a position across all years, with the line inside representing the median. Taller or higher boxes indicate higher or more variable salaries. Quarterbacks and Offensive Linemen tend to earn the most, while positions like Special Teamers and Tight Ends earn less and show less variation in pay."
+#| 
 # Reshape the data from wide to long format
 # Keeps 'year' as is, and stacks the salary data by position into two columns: 'position' and 'salary'
 
@@ -87,8 +90,7 @@ nfl_long <- nfl_salary |>
 ggplot(nfl_long, aes(x = position, y = salary)) +
   geom_boxplot(fill = "lightblue") +
   theme_minimal() +
-  labs(title = "NFL Salaries by Position", x = "Position", y = "Salary", alt = "This chart compares NFL salaries by position. Each box shows the range of salaries for a position across all years, with the line inside representing the median. Taller or higher boxes indicate higher or more variable salaries.
-Quarterbacks and Offensive Linemen tend to earn the most, while positions like Special Teamers and Tight Ends earn less and show less variation in pay.") +
+  labs(title = "NFL Salaries by Position", x = "Position", y = "Salary") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
